@@ -4,23 +4,45 @@ set -euo pipefail
 # Claude Code cloud environment setup for:
 # - General 5.0.0
 # - Activation Bootstrap 1.0
+# - Claude Code Cloud Adapter 1.0.1
 #
 # Paste this complete file into the environment's Setup script field.
-# It installs a stable global adapter before Claude Code starts. It does not
-# edit the selected project repository; the loaded bootstrap performs the
-# per-repository preflight on the first ordinary task.
+# It places the full adapter directly in Claude Code's managed CLAUDE.md.
+# No external Markdown import is used.
 
 setup_root="${GENERAL5_SETUP_ROOT:-}"
-adapter_dir="$setup_root/opt/general-5"
 policy_dir="$setup_root/etc/claude-code"
 policy_file="$policy_dir/CLAUDE.md"
-payload_file="$adapter_dir/PROJECT-INSTRUCTIONS.md"
-begin_marker='<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.0 -->'
+begin_marker='<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.0.1 -->'
 end_marker='<!-- GENERAL-5-CLOUD-ADAPTER:END -->'
 
-install -d -m 0755 "$adapter_dir" "$policy_dir"
+install -d -m 0755 "$policy_dir"
 
-cat > "$payload_file" <<'GENERAL5_PROJECT_INSTRUCTIONS'
+tmp_policy="$(mktemp)"
+
+if [[ -f "$policy_file" ]]; then
+  awk -v end="$end_marker" '
+    /^<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN( version=[^ ]+)? -->$/ {
+      skipping = 1
+      next
+    }
+    $0 == end {
+      skipping = 0
+      next
+    }
+    !skipping { print }
+  ' "$policy_file" > "$tmp_policy"
+else
+  : > "$tmp_policy"
+fi
+
+if [[ -s "$tmp_policy" ]]; then
+  printf '\n' >> "$tmp_policy"
+fi
+
+printf '%s\n' "$begin_marker" >> "$tmp_policy"
+
+cat >> "$tmp_policy" <<'GENERAL5_PROJECT_INSTRUCTIONS'
 # General 5 — Project Adapter
 
 Статус: готовые инструкции проекта для General 5.0.0 и Activation Bootstrap 1.0.
@@ -69,31 +91,9 @@ cat > "$payload_file" <<'GENERAL5_PROJECT_INSTRUCTIONS'
 Установка этих инструкций является постоянным решением PO на безопасные действия пункта 3. Деструктивные и внешние действия этим не разрешены.
 GENERAL5_PROJECT_INSTRUCTIONS
 
-chmod 0644 "$payload_file"
-
-tmp_policy="$(mktemp)"
-
-if [[ -f "$policy_file" ]]; then
-  awk -v begin="$begin_marker" -v end="$end_marker" '
-    $0 == begin { skipping = 1; next }
-    $0 == end { skipping = 0; next }
-    !skipping { print }
-  ' "$policy_file" > "$tmp_policy"
-else
-  : > "$tmp_policy"
-fi
-
-if [[ -s "$tmp_policy" ]]; then
-  printf '\n' >> "$tmp_policy"
-fi
-
-cat >> "$tmp_policy" <<EOF
-$begin_marker
-@${payload_file}
-$end_marker
-EOF
+printf '%s\n' "$end_marker" >> "$tmp_policy"
 
 chmod 0644 "$tmp_policy"
 mv "$tmp_policy" "$policy_file"
 
-printf 'Installed General 5.0.0 with Activation Bootstrap 1.0.\n'
+printf 'Installed General 5.0.0 with Activation Bootstrap 1.0 and Claude Code Cloud Adapter 1.0.1.\n'
