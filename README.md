@@ -1,31 +1,35 @@
 # Orchestration
 
-Clean-slate development of **General 5** — a small set of rules that helps an AI model complete work reliably without imposing a complex orchestration framework.
+Разработка с чистого листа **General 5** — небольшого набора правил, который помогает модели надёжно выполнять работу без сложной системы оркестрации.
 
-## Status
+## Статус
 
-**Draft.** General 5 is not released or activated.
+**Черновик.** General 5 не выпущен и не активирован.
 
-## Product boundary
+## Границы продукта
 
-- One agent is the default.
-- Tools, planning, and subagents are used only when they add clear value.
-- Product decisions belong to the Product Owner; technical execution stays within the approved scope.
-- The rules should remain short enough to inspect, understand, and adapt.
-- Complexity is added only after a demonstrated failure that a simpler rule cannot address.
+- По умолчанию работает один агент.
+- Инструменты, планирование и субагенты используются только при явной пользе.
+- Продуктовые решения принимает Product Owner (PO); техническое выполнение остаётся в подтверждённых границах.
+- Правила должны оставаться достаточно короткими, чтобы их можно было быстро прочитать, понять и адаптировать.
+- Сложность добавляется только после подтверждённого дефекта, который нельзя устранить более простым правилом.
 
-## Repository boundary
+## Границы репозитория
 
-This repository contains only the new General 5 line.
+В этом репозитории развивается только новая линия General 5.
 
-Previous versions, modules, research, releases, and implementation history remain in the read-only reference repository: [Alexio00/Orchestration_old](https://github.com/Alexio00/Orchestration_old). Nothing from that repository is normative here unless it is deliberately selected and rewritten for General 5.
+Предыдущие версии, модули, исследования, релизы и история реализации остаются в архивном репозитории только для чтения: [Alexio00/Orchestration_old](https://github.com/Alexio00/Orchestration_old). Ничто из него не является нормативной частью General 5, пока решение не будет осознанно отобрано и заново сформулировано для новой версии.
 
-## Current artifact
+## Текущий артефакт
 
-- [GENERAL-5.md](GENERAL-5.md) — working draft of the minimal instruction core.
+- [GENERAL-5.md](GENERAL-5.md) — рабочий черновик минимального ядра инструкций.
 
-## Development rule
+## Жизненный цикл
 
-Draft → verify → integrate → release → activate.
+Черновик → проверено → интегрировано → выпущено → активировано.
 
-Each transition is explicit. Creating or editing a draft does not release or activate it.
+Каждый переход выполняется отдельно. Создание или изменение черновика не означает его выпуск или активацию.
+
+## Язык документации
+
+Основной язык всей документации проекта — русский. Английский сохраняется только там, где перевод повредит точности: в коде, командах, путях, идентификаторах, параметрах API, названиях продуктов и оригинальных сообщениях об ошибках.
