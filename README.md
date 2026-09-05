@@ -28,6 +28,7 @@ General 5 предназначен для проектной работы, в к
 
 - [GENERAL-5.md](GENERAL-5.md) — нормативный текст выпущенной версии General 5.0.0.
 - [General 5.0.0](https://github.com/Alexio00/Orchestration/releases/tag/v5.0.0) — опубликованный релиз.
+- [Публичная страница активации](https://alexio00.github.io/Orchestration-pages/) — копируемые инструкции для чата, проекта и Claude Code cloud.
 
 ## Режим эксплуатации и развития
 

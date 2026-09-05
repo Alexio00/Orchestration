@@ -1,0 +1,92 @@
+name: Publish activation pages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - GENERAL-5.md
+      - PROJECT-INSTRUCTIONS.md
+      - CLAUDE-CODE-SETUP.sh
+      - scripts/publish-pages.sh
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Stable General release tag
+        required: false
+        default: v5.0.0
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-activation-pages
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check publication credential
+        id: auth
+        shell: bash
+        env:
+          PAGES_REPO_TOKEN: ${{ secrets.PAGES_REPO_TOKEN }}
+        run: |
+          if [[ -n "$PAGES_REPO_TOKEN" ]]; then
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Add PAGES_REPO_TOKEN to enable cross-repository publication."
+          fi
+
+      - name: Checkout private source
+        if: steps.auth.outputs.configured == 'true'
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Resolve release tag
+        if: steps.auth.outputs.configured == 'true'
+        id: version
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            tag="${{ github.event.release.tag_name }}"
+          elif [[ -n "${{ inputs.release_tag }}" ]]; then
+            tag="${{ inputs.release_tag }}"
+          else
+            tag="$(git describe --tags --abbrev=0 --match 'v[0-9]*' HEAD)"
+          fi
+          printf 'tag=%s\n' "$tag" >> "$GITHUB_OUTPUT"
+          artifact_revision="$(git log -1 --format=%H -- GENERAL-5.md PROJECT-INSTRUCTIONS.md CLAUDE-CODE-SETUP.sh)"
+          printf 'artifact_revision=%s\n' "$artifact_revision" >> "$GITHUB_OUTPUT"
+
+      - name: Checkout public pages
+        if: steps.auth.outputs.configured == 'true'
+        uses: actions/checkout@v5
+        with:
+          repository: Alexio00/Orchestration-pages
+          token: ${{ secrets.PAGES_REPO_TOKEN }}
+          path: pages-repo
+
+      - name: Build public artifacts
+        if: steps.auth.outputs.configured == 'true'
+        run: bash scripts/publish-pages.sh "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/pages-repo" "${{ steps.version.outputs.tag }}" "${{ steps.version.outputs.artifact_revision }}"
+
+      - name: Commit and push changed pages
+        if: steps.auth.outputs.configured == 'true'
+        working-directory: pages-repo
+        shell: bash
+        run: |
+          if git diff --quiet -- content/; then
+            echo "Public artifacts are already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- content/
+          git diff --cached --check
+          git commit -m "Publish General ${{ steps.version.outputs.tag }} activation artifacts"
+          git push
