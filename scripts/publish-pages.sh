@@ -42,7 +42,12 @@ cp "$setup_file" "$snapshot_tmp/claude-code-setup.sh"
 } > "$snapshot_tmp/chat-prompt.txt"
 
 release_url="https://github.com/Alexio00/Orchestration/releases/tag/$release_tag"
-published_at="$(git -C "$source_root" show -s --format=%cI "$source_revision" 2>/dev/null || date -u +%Y-%m-%dT%H:%M:%SZ)"
+commit_time="$(git -C "$source_root" show -s --format=%cI "$source_revision" 2>/dev/null || true)"
+if [[ -n "$commit_time" ]]; then
+  published_at="$(date -u -d "$commit_time" +%Y-%m-%dT%H:%M:%SZ)"
+else
+  published_at="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+fi
 
 cat > "$snapshot_tmp/manifest.json" <<JSON
 {
