@@ -8,6 +8,7 @@ on:
       - PROJECT-INSTRUCTIONS.md
       - CLAUDE-CODE-SETUP.sh
       - scripts/publish-pages.sh
+      - .github/workflows/publish-pages.yml
   release:
     types: [published]
   workflow_dispatch:
