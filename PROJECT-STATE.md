@@ -3,12 +3,11 @@
 Снимок состояния: 2026-09-07
 Репозиторий: Alexio00/Orchestration
 Ветка: main
-Опорная ревизия: 4fbf91ef28632ca8390bfd33865a38ca4bca41d3
+Опорная ревизия: 8a41fabd6d36787b5044f64589f36eeeacf6f63f
 Активная версия General: 5.0.0
-Версия Activation Bootstrap: 1.2.0 — integrated и published; живая активация не подтверждена
-Версия Claude Code Cloud Adapter: 1.2.0 — integrated и published; живая активация не подтверждена
-Рабочий candidate: Activation Bootstrap 1.2.1 и Claude Code Cloud Adapter 1.2.1
-Ревизия снимка: 11
+Версия Activation Bootstrap: 1.2.1 — integrated и published; живая активация не подтверждена
+Версия Claude Code Cloud Adapter: 1.2.1 — integrated и published; живая активация не подтверждена
+Ревизия снимка: 12
 
 ## Цель
 
@@ -16,10 +15,10 @@
 
 ## Границы текущего этапа
 
-- Входит: только исправление findings A-01 и A-02 повторного независимого аудита — сохранение позиции cloud managed-блока и детерминированная классификация activation PR; patch-версии Bootstrap/Cloud Adapter 1.2.1 и необходимые тесты/производные артефакты.
-- Не входит: остальные findings повторного аудита; изменение General 5.0.0 и тега `v5.0.0`; merge, публикация и живая активация 1.2.1 без отдельных решений PO.
-- Ограничение: опубликованный snapshot 1.2.0 не переписывается; изменения выпускаются как candidate 1.2.1 в отдельной ветке.
-- Критерий готовности: managed-блок обновляется на прежнем месте с сохранением prefix/suffix; кандидат PR определяется по точному body marker, полному changed-files и итоговому head-tree; канонические и производные артефакты согласованы; сценарные тесты проходят.
+- Входит: живая проверка Activation Bootstrap 1.2.1 и Cloud Adapter 1.2.1 в Claude Code Cloud, ChatGPT, Codex и Qwen Code; сбор evidence; отдельная фиксация статуса активации по каждой среде.
+- Не входит: остальные findings повторного аудита; изменение General 5.0.0 и тега `v5.0.0`; экспериментальные среды; специализированные модули Auditor/Developer/Planner/Architect.
+- Ограничение: публикация не считается активацией; фактическое чтение инструкций и поведение адаптера подтверждаются только живым тестом.
+- Критерий готовности: по каждой целевой среде зафиксированы версия адаптера, квитанция активации, использованные источники, отсутствие непредусмотренной записи и выявленные расхождения.
 
 ## Решения PO
 
@@ -29,6 +28,8 @@
 - 2026-09-06 — PO одобрил исправление внешней свежести, marker safety, drift-gate, классификации PR, квитанции и маршрутизации контекста. Замечания о старте Codex/Qwen, trust boundary и глобальной области разрешения оставлены без изменения и вынесены в `KNOWN-FEATURES.md`. General 5.0.0 не изменяется.
 - 2026-09-07 — PO отдельно разрешил squash-merge PR #1 и автоматическую публикацию Bootstrap/Cloud Adapter 1.2.0.
 - 2026-09-07 — после повторного независимого аудита PO разрешил исправить только findings A-01 и A-02; остальные findings не входят в текущую работу.
+- 2026-09-07 — PO разрешил squash-merge PR #3 и неизбежную автоматическую публикацию Bootstrap/Cloud Adapter 1.2.1.
+- 2026-09-07 — PO поручил отдельно актуализировать PROJECT-STATE.md после merge и публикации; General и исполняемые артефакты не изменяются.
 
 ## Завершено
 
@@ -40,25 +41,27 @@
 - PR #1 смержен в `main` методом squash 2026-09-07; merge commit — `4fbf91ef28632ca8390bfd33865a38ca4bca41d3`.
 - Push-проверки `Verify orchestration artifacts` (run `34091038683`) и `Publish activation pages` (run `34091038713`) завершены успешно.
 - Публичный snapshot `v5.0.0-bootstrap-1.2.0-cloud-1.2.0` опубликован; GitHub Pages deployment run `34091052385` завершён успешно.
+- Findings A-01 и A-02 исправлены в Bootstrap/Cloud Adapter 1.2.1: cloud setup сохраняет позицию managed-блока, а классификация activation PR требует точного body marker, полного changed-files и проверки итогового head-tree.
+- PR #3 смержен в `main` методом squash 2026-09-07; merge commit — `8a41fabd6d36787b5044f64589f36eeeacf6f63f`.
+- Push-проверки `Verify orchestration artifacts` (run `34097415014`) и `Publish activation pages` (run `34097414997`) завершены успешно.
+- Публичный snapshot `v5.0.0-bootstrap-1.2.1-cloud-1.2.1` опубликован; GitHub Pages deployment run `34097430408` завершён успешно.
 
 ## Текущее состояние
 
-Bootstrap 1.2.0 и Cloud Adapter 1.2.0 находятся в `main` и опубликованы в `Alexio00/Orchestration-pages`. Канонические и производные артефакты прошли автоматическую проверку согласованности. Публичный manifest связывает snapshot с source revision `4fbf91ef28632ca8390bfd33865a38ca4bca41d3`.
+Bootstrap 1.2.1 и Cloud Adapter 1.2.1 находятся в `main` и опубликованы в `Alexio00/Orchestration-pages`. Канонические и производные артефакты прошли автоматическую проверку согласованности. Публичный manifest связывает snapshot с source revision `8a41fabd6d36787b5044f64589f36eeeacf6f63f`.
 
-Публикация завершена, но lifecycle-gate активации ещё не закрыт: живые тесты в пользовательских окружениях не проводились. Поэтому факт автоматического чтения инструкций и поведение адаптера в Claude Code Cloud, ChatGPT, Codex и Qwen Code пока не подтверждены.
-
-В отдельной ветке подготовлен candidate 1.2.1: cloud setup заменяет управляемый блок на прежнем месте; PR-классификация требует точный marker в body, полностью полученный changed-files и валидацию итоговых файлов head-tree. General 5.0.0 и остальные findings повторного аудита не изменяются.
+Публикация завершена, но lifecycle-gate активации ещё не закрыт: живые тесты в пользовательских окружениях не проводились. Поэтому факт автоматического чтения инструкций и поведение адаптера в Claude Code Cloud, ChatGPT, Codex и Qwen Code пока не подтверждены. General 5.0.0 и остальные findings повторного аудита не изменялись.
 
 ## Открытые вопросы
 
-- Проходит ли Bootstrap/Cloud Adapter 1.2.1 проверку PR и последующий живой Claude Code Cloud-тест: установка, сохранение порядка инструкций, marker safety, полная пагинация PR/changed-files, классификация кандидатов, read-only и остановка после draft PR?
+- Проходит ли Bootstrap/Cloud Adapter 1.2.1 живой Claude Code Cloud-тест: установка, сохранение порядка инструкций, marker safety, полная пагинация PR/changed-files, классификация кандидатов, read-only и остановка после draft PR?
 - Подтверждает ли ChatGPT автоматическое применение актуальных Project Instructions и единую квитанцию в новой сессии?
 - Подтверждают ли Codex и Qwen Code автоматическое чтение уже установленного корневого `AGENTS.md` в целевых версиях?
 - Требуются ли отдельные роли субагентов после накопления воспроизводимых дефектов общей PM-модели?
 
 ## Следующий шаг
 
-Проверить candidate 1.2.1 в отдельном PR. Затем требуются отдельные решения PO о merge, автоматической публикации и живой активации.
+После отдельного решения PO провести живой тест Claude Code Cloud как среды с наибольшим риском. Затем проверить ChatGPT, Codex и Qwen Code, собрать evidence и отдельно закрыть activation gate для каждой подтверждённой среды.
 
 ## Контекст следующего шага
 
@@ -79,14 +82,14 @@ Bootstrap 1.2.0 и Cloud Adapter 1.2.0 находятся в `main` и опуб�
 
 ## Внешние изменяемые факты
 
-- Orchestration PR #1 merged, `main` указывает на `4fbf91ef28632ca8390bfd33865a38ca4bca41d3`, связанные push-workflows завершены успешно — GitHub PR, Git ref и Actions API; `checked_at: 2026-09-07T06:46:56Z`.
-- Публичный manifest подтверждает snapshot `v5.0.0-bootstrap-1.2.0-cloud-1.2.0`, Bootstrap 1.2.0, Cloud Adapter 1.2.0 и source revision `4fbf91ef28632ca8390bfd33865a38ca4bca41d3`; GitHub Pages deployment успешен — `Alexio00/Orchestration-pages` manifest и Actions API; `checked_at: 2026-09-07T06:46:56Z`.
+- Orchestration PR #3 merged, `main` указывает на `8a41fabd6d36787b5044f64589f36eeeacf6f63f`, связанные push-workflows завершены успешно — GitHub PR, Git ref и Actions API; `checked_at: 2026-09-07T07:50:25Z`.
+- Публичный manifest подтверждает snapshot `v5.0.0-bootstrap-1.2.1-cloud-1.2.1`, Bootstrap 1.2.1, Cloud Adapter 1.2.1 и source revision `8a41fabd6d36787b5044f64589f36eeeacf6f63f`; GitHub Pages deployment успешен — `Alexio00/Orchestration-pages` manifest и Actions API; `checked_at: 2026-09-07T07:50:25Z`.
 - DICOM PR #1/#2 закрыты, PR #3 merged — GitHub PR API; `checked_at: 2026-09-06T17:52:23Z`; перепроверять только перед новой работой, зависящей от состояния DICOM.
 - Значения secrets, branch protection, required checks и фактическая загрузка инструкций средами не подтверждаются SHA этого репозитория и всегда требуют отдельной live-проверки.
 
 ## Риски и расхождения
 
-- Bootstrap 1.2.0 и Cloud Adapter 1.2.0 опубликованы, но ещё не прошли живой тест; candidate 1.2.1 также не активирован и до merge/publication остаётся рабочим изменением.
+- Bootstrap 1.2.1 и Cloud Adapter 1.2.1 опубликованы, но ещё не прошли живой тест; статус активации не подтверждён.
 - Репозиторный merge и публикация не обновляют автоматически Project Instructions или setup script в пользовательском окружении.
 - Полная семантика пагинации и загрузки instruction files зависит от инструментов среды; невозможность доказать полноту блокирует запись.
 - Первоначальный запуск Codex/Qwen без корневого `AGENTS.md`, trust boundary проектных источников и глобальная область разрешения cloud-адаптера остаются осознанно принятыми особенностями из `KNOWN-FEATURES.md`.
