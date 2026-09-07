@@ -21,6 +21,16 @@ if [[ -z "$general_version" || -z "$bootstrap_version" || -z "$adapter_version" 
   exit 1
 fi
 
+if grep -Fq 'Статус: **выпущено — General ' "$general_file"; then
+  general_tag="v$general_version"
+  if ! git -C "$repo_root" rev-parse --verify "refs/tags/$general_tag^{commit}" >/dev/null 2>&1; then
+    printf 'Released General tag is missing: %s.\n' "$general_tag" >&2
+    exit 1
+  fi
+  git -C "$repo_root" show "$general_tag:GENERAL-5.md" > "$tmp_dir/tagged-general.md"
+  diff -u "$tmp_dir/tagged-general.md" "$general_file"
+fi
+
 "$script_dir/build-project-instructions.sh" "$tmp_dir/PROJECT-INSTRUCTIONS.md"
 diff -u "$project_file" "$tmp_dir/PROJECT-INSTRUCTIONS.md"
 project_characters="$(wc -m < "$project_file")"

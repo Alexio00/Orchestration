@@ -23,7 +23,7 @@ expect_failure() {
 fresh_root="$tmp_dir/fresh"
 run_setup "$fresh_root"
 fresh_policy="$fresh_root/etc/claude-code/CLAUDE.md"
-grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.1 -->' "$fresh_policy"
+grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.2 -->' "$fresh_policy"
 
 printf '\nCUSTOM-SUFFIX\n' >> "$fresh_policy"
 run_setup "$fresh_root"
@@ -46,9 +46,9 @@ printf '%s\n' \
 run_setup "$older_root"
 grep -Fxq 'CUSTOM-PREFIX' "$older_policy"
 grep -Fxq 'CUSTOM-SUFFIX' "$older_policy"
-grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.1 -->' "$older_policy"
+grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.2 -->' "$older_policy"
 older_prefix_line="$(grep -nFx 'CUSTOM-PREFIX' "$older_policy" | cut -d: -f1)"
-older_begin_line="$(grep -nFx '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.1 -->' "$older_policy" | cut -d: -f1)"
+older_begin_line="$(grep -nFx '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.2 -->' "$older_policy" | cut -d: -f1)"
 older_end_line="$(grep -nFx '<!-- GENERAL-5-CLOUD-ADAPTER:END -->' "$older_policy" | cut -d: -f1)"
 older_suffix_line="$(grep -nFx 'CUSTOM-SUFFIX' "$older_policy" | cut -d: -f1)"
 (( older_prefix_line < older_begin_line ))
