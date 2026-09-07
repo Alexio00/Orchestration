@@ -40,11 +40,11 @@ if (( project_characters > 8000 )); then
 fi
 
 awk '
-  $0 == "## Ядро General 5.0.0" { found = 1; next }
+  $0 == "## Ядро General " version { found = 1; next }
   found && !started && $0 == "" { next }
   found && $0 == "<!-- GENERAL-5:END -->" { exit }
   found { started = 1; print }
-' "$agents_file" > "$tmp_dir/agents-core.md"
+' version="$general_version" "$agents_file" > "$tmp_dir/agents-core.md"
 diff -u "$general_file" "$tmp_dir/agents-core.md"
 
 awk '

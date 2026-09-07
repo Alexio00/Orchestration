@@ -1,6 +1,6 @@
 # Активация General 5 в поддерживаемых средах
 
-Версии документа: General 5.0.0, Activation Bootstrap 1.2.2 и Claude Code Cloud Adapter 1.2.2. Lifecycle-статусы указаны в `PROJECT-STATE.md`; экспериментальные среды не входят.
+Версии документа: General 5.0.1 candidate, Activation Bootstrap 1.2.3 candidate и Claude Code Cloud Adapter 1.2.3 candidate. Lifecycle-статусы указаны в `PROJECT-STATE.md`; экспериментальные среды не входят.
 
 ## Общий контракт
 
@@ -24,7 +24,7 @@ Bootstrap выполняется перед первой содержатель�
 
 | Файл | Назначение |
 |---|---|
-| `GENERAL-5.md` | Каноническое выпущенное ядро General 5.0.0 |
+| `GENERAL-5.md` | Каноническое ядро текущей версии General |
 | `ACTIVATION-BOOTSTRAP.md` | Канонический автоматический preflight |
 | `PROJECT-INSTRUCTIONS.md` | Готовый текст для ChatGPT Project и Claude Project: General + bootstrap |
 | `CLAUDE-CODE-SETUP.sh` | Готовый setup script облачного окружения Claude Code |
@@ -130,9 +130,9 @@ Setup script записывает полный глобальный адапте
 
 После восстановления повтори read-only preflight. Не удаляй маркеры, ветки или PR без решения PO.
 
-## Проверка Bootstrap 1.2.2
+## Проверка Bootstrap 1.2.3
 
-В 1.2.0 добавлены формальная классификация, единая квитанция и drift-gate; в 1.2.1 — полный changed-files, проверка head-tree и сохранение позиции managed-блока. В 1.2.2 унифицирован lifecycle, разделены ревизия артефактов и текущий HEAD, добавлены tag-gate и troubleshooting. Три принятые PO особенности остаются в `KNOWN-FEATURES.md`. Версия 1.2.2 требует живой проверки до статуса `activated` в каждой среде.
+В 1.2.0 добавлены формальная классификация, единая квитанция и drift-gate; в 1.2.1 — полный changed-files, проверка head-tree и сохранение позиции managed-блока. В 1.2.2 унифицирован lifecycle, разделены ревизия артефактов и текущий HEAD, добавлены tag-gate и troubleshooting. Версия 1.2.3 переносит General 5.0.1 без изменения логики Bootstrap. Три принятые PO особенности остаются в `KNOWN-FEATURES.md`. Candidate требует проверки до выпуска и последующей живой активации в каждой среде.
 
 | Сценарий | Ожидаемый результат |
 |---|---|
