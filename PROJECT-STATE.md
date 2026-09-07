@@ -3,13 +3,12 @@
 Снимок состояния: 2026-09-07
 Репозиторий: Alexio00/Orchestration
 Ветка: main
-Ревизия артефактов: 8a41fabd6d36787b5044f64589f36eeeacf6f63f
-База снимка: 3398f355eb6d6c4f9d1b836bfdfdda9c82965774
+Ревизия артефактов: bd6a5384b4d8f1f7f93df89e0b13a1366ee84a33
+База снимка: bd6a5384b4d8f1f7f93df89e0b13a1366ee84a33
 Текущий HEAD: проверяется при чтении
 Активная версия General: 5.0.0 — released
-Bootstrap и Cloud Adapter: 1.2.1 — integrated, released, published; activation не подтверждён
-Рабочий candidate: Bootstrap и Cloud Adapter 1.2.2
-Ревизия снимка: 13
+Bootstrap и Cloud Adapter: 1.2.2 — integrated, released, published; activation не подтверждён
+Ревизия снимка: 14
 
 ## Цель
 
@@ -17,10 +16,10 @@ Bootstrap и Cloud Adapter: 1.2.1 — integrated, released, published; activatio
 
 ## Границы текущего этапа
 
-- Входит: lifecycle, ревизии состояния, immutable tag-gate, troubleshooting, навигация и сокращение контекста.
-- Не входит: остальные findings; изменение General 5.0.0; пересмотр `KNOWN-FEATURES.md`; живая активация.
-- Ограничение: snapshot 1.2.1 не переписывается; изменения выпускаются как candidate 1.2.2.
-- Критерий готовности: один lifecycle, устойчивый state, tag-gate, recovery, компактный контекст и зелёные проверки.
+- Входит: живая проверка Bootstrap/Cloud Adapter 1.2.2 в Claude Code Cloud, ChatGPT, Codex и Qwen Code; сбор evidence и отдельная фиксация activation по каждой среде.
+- Не входит: остальные findings; изменение General 5.0.0; пересмотр `KNOWN-FEATURES.md`; экспериментальные среды.
+- Ограничение: публикация не равна активации; фактическая загрузка подтверждается только новой сессией и квитанцией.
+- Критерий готовности: для каждой среды зафиксированы версия, источники, квитанция, отсутствие непредусмотренной записи и расхождения.
 
 ## Ключевые решения PO
 
@@ -29,34 +28,37 @@ Bootstrap и Cloud Adapter: 1.2.1 — integrated, released, published; activatio
 - Bootstrap готовит только файлы активации, ветку и один draft PR; merge, публикация и live-тест требуют отдельных решений.
 - Первоначальный запуск Codex/Qwen без `AGENTS.md`, trust boundary и глобальная область разрешения cloud-адаптера остаются принятыми особенностями.
 - 2026-09-07 — PO разрешил исправить пять рекомендаций последнего аудита документации.
+- 2026-09-07 — PO отдельно разрешил squash-merge PR #5 и автоматическую публикацию Bootstrap/Cloud Adapter 1.2.2.
+- 2026-09-07 — PO поручил постмерджево обновить только PROJECT-STATE.md; merge этого обновления отдельно не разрешён.
 
 ## Завершено
 
 - General 5.0.0 выпущен и совпадает с тегом `v5.0.0`.
-- Bootstrap/Cloud Adapter 1.2.1 опубликованы snapshot `v5.0.0-bootstrap-1.2.1-cloud-1.2.1` из `8a41fabd6d36787b5044f64589f36eeeacf6f63f`.
-- Версия 1.2.1 сохраняет позицию managed-блока и проверяет activation PR по marker, полному changed-files и head-tree.
-- Последний state-only merge: PR #4, commit `3398f355eb6d6c4f9d1b836bfdfdda9c82965774`.
+- Bootstrap/Cloud Adapter 1.2.1 опубликованы как исторический snapshot из `8a41fabd6d36787b5044f64589f36eeeacf6f63f`.
+- PR #5 смержен методом squash; commit `bd6a5384b4d8f1f7f93df89e0b13a1366ee84a33`.
+- Bootstrap/Cloud Adapter 1.2.2 опубликованы snapshot `v5.0.0-bootstrap-1.2.2-cloud-1.2.2`; verifier, публикация и Pages deploy успешны.
+- Версия 1.2.2 унифицирует lifecycle, разделяет ревизии состояния, добавляет tag-gate, troubleshooting и компактную навигацию.
 
 ## Текущее состояние
 
-Версия 1.2.1 опубликована, но не активирована в пользовательских окружениях. Candidate 1.2.2 устраняет пять документационных findings и добавляет tag-gate; General 5.0.0 и принятые особенности не изменяются.
+Версия 1.2.2 интегрирована, выпущена и опубликована, но не активирована в пользовательских окружениях. General 5.0.0 и принятые особенности не изменялись.
 
 ## Открытые вопросы
 
-- Пройдёт ли candidate 1.2.2 проверку и получит ли решения PO о merge и публикации?
-- Подтвердит ли новая сессия Claude Code Cloud установку, recovery и квитанцию?
-- Подтвердят ли ChatGPT, Codex и Qwen Code загрузку постоянных точек входа?
+- Подтвердит ли новая сессия Claude Code Cloud 1.2.2 установку, recovery и квитанцию?
+- Подтвердят ли ChatGPT, Codex и Qwen Code 1.2.2 загрузку постоянных точек входа?
+- Какие расхождения живых тестов требуют исправления, а какие являются принятыми особенностями?
 
 ## Следующий шаг
 
-Проверить candidate 1.2.2 в draft PR. После решения PO — merge и публикация; затем отдельный live-тест Claude Code Cloud.
+После отдельного решения PO провести live-тест Claude Code Cloud 1.2.2 как среды с наибольшим риском. Затем проверить ChatGPT, Codex и Qwen Code.
 
 ## Контекст следующего шага
 
-- `README.md` и `ACTIVATION.md` — lifecycle, навигация и troubleshooting.
-- `ACTIVATION-BOOTSTRAP.md` и `PROJECT-STATE.template.md` — модель ревизий.
-- `scripts/verify-artifacts.sh` и `.github/workflows/verify.yml` — tag-gate.
-- `PROJECT-STATE.md` — компактность и ближайший шаг.
+- `ACTIVATION.md` — процедуры и матрица live-проверки.
+- `ACTIVATION-BOOTSTRAP.md` — контракт preflight и квитанции.
+- `CLAUDE-CODE-SETUP.sh` — устанавливаемый cloud-адаптер 1.2.2.
+- `scripts/test-claude-code-setup.sh` — локальные сценарии перед cloud-тестом.
 
 ## Справочный контекст
 
@@ -67,15 +69,15 @@ Bootstrap и Cloud Adapter: 1.2.1 — integrated, released, published; activatio
 
 ## Внешние изменяемые факты
 
-- До изменений `main` был `3398f355eb6d6c4f9d1b836bfdfdda9c82965774`; текущий HEAD всегда перепроверять.
-- Публичный manifest указывает snapshot 1.2.1 и source revision `8a41fabd6d36787b5044f64589f36eeeacf6f63f`; перепроверять перед публикацией.
+- На момент снимка артефакты находятся в `main@bd6a5384b4d8f1f7f93df89e0b13a1366ee84a33`; текущий HEAD всегда перепроверять.
+- Публичный manifest подтверждает snapshot `v5.0.0-bootstrap-1.2.2-cloud-1.2.2` и source revision `bd6a5384b4d8f1f7f93df89e0b13a1366ee84a33`; Pages deploy успешен.
 - Загрузка инструкций средами требует live-теста.
 
 ## Риски и расхождения
 
-- Candidate 1.2.2 не integrated/released/published/activated.
-- PROJECT-INSTRUCTIONS должен оставаться в лимите 8000 символов.
-- Недоступность релизного тега должна блокировать проверку выпущенного General.
+- Bootstrap/Cloud Adapter 1.2.2 не имеют статуса activated ни в одной целевой среде.
+- Репозиторный merge и публикация не обновляют автоматически настройки пользовательских сред.
+- PROJECT-INSTRUCTIONS занимает 7895 из 8000 символов; дальнейшие изменения требуют сокращения или новой границы.
 
 ## Свежесть снимка
 
