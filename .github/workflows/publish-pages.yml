@@ -7,6 +7,12 @@ on:
       - GENERAL-5.md
       - PROJECT-INSTRUCTIONS.md
       - CLAUDE-CODE-SETUP.sh
+      - ACTIVATION-BOOTSTRAP.md
+      - AGENTS.md
+      - scripts/build-project-instructions.sh
+      - scripts/sync-setup-payload.sh
+      - scripts/verify-artifacts.sh
+      - scripts/test-claude-code-setup.sh
       - scripts/publish-pages.sh
       - .github/workflows/publish-pages.yml
   release:
@@ -29,6 +35,17 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout private source
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Verify canonical and derived artifacts
+        run: bash scripts/verify-artifacts.sh
+
+      - name: Test Claude Code setup safety
+        run: bash scripts/test-claude-code-setup.sh
+
       - name: Check publication credential
         id: auth
         shell: bash
@@ -41,12 +58,6 @@ jobs:
             echo "configured=false" >> "$GITHUB_OUTPUT"
             echo "::notice::Add PAGES_REPO_TOKEN to enable cross-repository publication."
           fi
-
-      - name: Checkout private source
-        if: steps.auth.outputs.configured == 'true'
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
 
       - name: Resolve release tag
         if: steps.auth.outputs.configured == 'true'

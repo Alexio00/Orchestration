@@ -1,0 +1,22 @@
+name: Verify orchestration artifacts
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v5
+
+      - name: Verify canonical and derived artifacts
+        run: bash scripts/verify-artifacts.sh
+
+      - name: Test Claude Code setup safety
+        run: bash scripts/test-claude-code-setup.sh
