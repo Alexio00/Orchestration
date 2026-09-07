@@ -3,8 +3,8 @@ set -euo pipefail
 
 # Claude Code cloud environment setup for:
 # - General 5.0.0
-# - Activation Bootstrap 1.2.0
-# - Claude Code Cloud Adapter 1.2.0
+# - Activation Bootstrap 1.2.1
+# - Claude Code Cloud Adapter 1.2.1
 #
 # Paste this complete file into the environment's Setup script field.
 # It places the full adapter directly in Claude Code's managed CLAUDE.md.
@@ -13,14 +13,15 @@ set -euo pipefail
 setup_root="${GENERAL5_SETUP_ROOT:-}"
 policy_dir="$setup_root/etc/claude-code"
 policy_file="$policy_dir/CLAUDE.md"
-adapter_version='1.2.0'
+adapter_version='1.2.1'
 begin_marker="<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=$adapter_version -->"
 end_marker='<!-- GENERAL-5-CLOUD-ADAPTER:END -->'
 
 install -d -m 0755 "$policy_dir"
 
-tmp_policy="$(mktemp)"
+tmp_policy="$(mktemp "$policy_dir/.CLAUDE.md.general5.XXXXXX")"
 trap 'rm -f "$tmp_policy"' EXIT
+suffix_start=''
 
 if [[ -f "$policy_file" ]]; then
   mapfile -t all_markers < <(grep -n 'GENERAL-5-CLOUD-ADAPTER:' "$policy_file" || true)
@@ -50,13 +51,18 @@ if [[ -f "$policy_file" ]]; then
       exit 1
     fi
 
-    awk -v start="$begin_line" -v finish="$end_line" 'NR < start || NR > finish { print }' "$policy_file" > "$tmp_policy"
+    if (( begin_line > 1 )); then
+      sed -n "1,$((begin_line - 1))p" "$policy_file" > "$tmp_policy"
+    else
+      : > "$tmp_policy"
+    fi
+    suffix_start="$((end_line + 1))"
   fi
 else
   : > "$tmp_policy"
 fi
 
-if [[ -s "$tmp_policy" ]]; then
+if [[ -z "$suffix_start" && -s "$tmp_policy" ]]; then
   printf '\n' >> "$tmp_policy"
 fi
 
@@ -65,7 +71,7 @@ printf '%s\n' "$begin_marker" >> "$tmp_policy"
 cat >> "$tmp_policy" <<'GENERAL5_PROJECT_INSTRUCTIONS'
 # General 5 — Project Adapter
 
-General 5.0.0 + Activation Bootstrap 1.2.0.
+General 5.0.0 + Activation Bootstrap 1.2.1.
 
 ## Ядро General 5.0.0
 
@@ -98,7 +104,7 @@ General 5.0.0 + Activation Bootstrap 1.2.0.
 
 ## Автоматическая активация
 
-# Activation Bootstrap 1.2.0
+# Activation Bootstrap 1.2.1
 
 ## Полномочия
 
@@ -113,8 +119,8 @@ Read-only/Plan и более узкие полномочия приоритет�
 Перед первой содержательной задачей новой/переданной сессии:
 
 1. Определи полномочия, repo, ветки, base, HEAD и working/staged diff. Неоднозначная base блокирует запись.
-2. До записи получи все open PR репозитория в точную base с подтверждённой пагинацией, без фильтра head. Нет доступа или полнота не доказана — останови запись.
-3. Кандидат активации: непустой PR затрагивает только `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md` и содержит `@AGENTS.md` либо `GENERAL-5:BEGIN`. Маркер `GENERAL-5-ACTIVATION` с иными путями — конфликт. `0` кандидатов → можно создать; `1` → переиспользуй; `>1`/конфликт → решение PO.
+2. До записи получи все open PR репозитория в точную base, без фильтра head. Подтверди полную пагинацию списка PR и полного changed-files каждого PR; если API сообщает `changed_files`, число полученных уникальных путей должно совпасть. Нет доступа или любая полнота не доказана — останови запись.
+3. Кандидат активации — непустой PR, который одновременно: направлен в точную base; содержит в body ровно один маркер `GENERAL-5-ACTIVATION` с фактическими repository/base и версиями; по полному changed-files затрагивает только `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md`; в итоговом head-tree `CLAUDE.md` содержит ровно одну строку `@AGENTS.md` вне блока кода, а `AGENTS.md` — ровно по одному согласованному `GENERAL-5:BEGIN version=5.0.0 bootstrap=1.2.1` и `GENERAL-5:END` в правильном порядке. Итоговые файлы проверяй из PR head-tree, не по строкам patch. Несовпадающий/повторный PR-маркер, удаление активации или иной путь — конфликт. `0` кандидатов → можно создать; `1` → переиспользуй; `>1`/конфликт → решение PO.
 4. Проверь файлы. При разрешённой записи создай недостающее; в read-only сообщи. Конфликт или чужие правки блокируют запись.
 5. Прочитай состояние; проверь локальную свежесть и отдельно используемые внешние факты. Загрузи только «Контекст следующего шага» и нужные задаче источники. Проверь diff и сохрани.
 6. Один раз выдай краткую квитанцию: версии, repo/branch/HEAD, свежесть, цель, шаг, расхождения. Расширенную — по запросу. После подключения отчитайся и остановись; иную явную задачу продолжай.
@@ -132,10 +138,10 @@ Read-only/Plan и более узкие полномочия приоритет�
 Создай или обнови один однозначный блок, сохранив остальное:
 
 ```markdown
-<!-- GENERAL-5:BEGIN version=5.0.0 bootstrap=1.2.0 -->
+<!-- GENERAL-5:BEGIN version=5.0.0 bootstrap=1.2.1 -->
 # General 5 — repository activation
 Статус: активный репозиторный дистрибутив General 5.0.0.
-Activation Bootstrap: 1.2.0.
+Activation Bootstrap: 1.2.1.
 
 ## Протокол активации
 Перед работой новой/переданной сессии:
@@ -191,7 +197,7 @@ Activation Bootstrap: 1.2.0.
 3. Без изменений — без commit/PR. Перед продолжением проверь происхождение изменений.
 4. Ветка допустима, только если весь diff к base относится к активации. Без force push; нельзя изолировать своё — остановка.
 5. Добавляй только свои точные пути; не используй `git add .`/`git add -A`. Проверь staged и branch diff.
-6. Commit/push и draft PR либо обновление кандидата. Новый PR пометь: `<!-- GENERAL-5-ACTIVATION repository=owner/repository base=branch general=5.0.0 bootstrap=1.2.0 -->`. Проверь commit, head/base и PR diff; отказ — фактический этап и остановка.
+6. Commit/push и draft PR либо обновление кандидата. Новый PR пометь в body ровно один раз: `<!-- GENERAL-5-ACTIVATION repository=owner/repository base=branch general=5.0.0 bootstrap=1.2.1 -->`, подставив фактические repository/base. Проверь commit, head/base, полный PR diff и итоговые файлы head-tree; отказ — фактический этап и остановка.
 7. После PR остановись: без merge и автоматического monitoring.
 
 ## Результат
@@ -201,8 +207,12 @@ GENERAL5_PROJECT_INSTRUCTIONS
 
 printf '%s\n' "$end_marker" >> "$tmp_policy"
 
+if [[ -n "$suffix_start" ]]; then
+  sed -n "${suffix_start},\$p" "$policy_file" >> "$tmp_policy"
+fi
+
 chmod 0644 "$tmp_policy"
 mv "$tmp_policy" "$policy_file"
 trap - EXIT
 
-printf 'Installed General 5.0.0 with Activation Bootstrap 1.2.0 and Claude Code Cloud Adapter 1.2.0.\n'
+printf 'Installed General 5.0.0 with Activation Bootstrap 1.2.1 and Claude Code Cloud Adapter 1.2.1.\n'

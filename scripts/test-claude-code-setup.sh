@@ -23,27 +23,44 @@ expect_failure() {
 fresh_root="$tmp_dir/fresh"
 run_setup "$fresh_root"
 fresh_policy="$fresh_root/etc/claude-code/CLAUDE.md"
-grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.0 -->' "$fresh_policy"
+grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.1 -->' "$fresh_policy"
 
 printf '\nCUSTOM-SUFFIX\n' >> "$fresh_policy"
 run_setup "$fresh_root"
 [[ "$(grep -c '^<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN' "$fresh_policy")" == 1 ]]
 [[ "$(grep -c '^<!-- GENERAL-5-CLOUD-ADAPTER:END -->$' "$fresh_policy")" == 1 ]]
 [[ "$(grep -c '^CUSTOM-SUFFIX$' "$fresh_policy")" == 1 ]]
+fresh_end_line="$(grep -nFx '<!-- GENERAL-5-CLOUD-ADAPTER:END -->' "$fresh_policy" | cut -d: -f1)"
+fresh_suffix_line="$(grep -nFx 'CUSTOM-SUFFIX' "$fresh_policy" | cut -d: -f1)"
+(( fresh_end_line < fresh_suffix_line ))
 
 older_root="$tmp_dir/older"
 mkdir -p "$older_root/etc/claude-code"
 older_policy="$older_root/etc/claude-code/CLAUDE.md"
 printf '%s\n' \
   'CUSTOM-PREFIX' \
-  '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.1.1 -->' \
+  '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.0 -->' \
   'old payload' \
   '<!-- GENERAL-5-CLOUD-ADAPTER:END -->' \
   'CUSTOM-SUFFIX' > "$older_policy"
 run_setup "$older_root"
 grep -Fxq 'CUSTOM-PREFIX' "$older_policy"
 grep -Fxq 'CUSTOM-SUFFIX' "$older_policy"
-grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.0 -->' "$older_policy"
+grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.1 -->' "$older_policy"
+older_prefix_line="$(grep -nFx 'CUSTOM-PREFIX' "$older_policy" | cut -d: -f1)"
+older_begin_line="$(grep -nFx '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.1 -->' "$older_policy" | cut -d: -f1)"
+older_end_line="$(grep -nFx '<!-- GENERAL-5-CLOUD-ADAPTER:END -->' "$older_policy" | cut -d: -f1)"
+older_suffix_line="$(grep -nFx 'CUSTOM-SUFFIX' "$older_policy" | cut -d: -f1)"
+(( older_prefix_line < older_begin_line ))
+(( older_begin_line < older_end_line ))
+(( older_end_line < older_suffix_line ))
+printf '%s\n' 'CUSTOM-PREFIX' 'CUSTOM-SUFFIX' > "$tmp_dir/older-expected-outside"
+awk '
+  /^<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN/ { managed = 1; next }
+  managed && /^<!-- GENERAL-5-CLOUD-ADAPTER:END -->$/ { managed = 0; next }
+  !managed { print }
+' "$older_policy" > "$tmp_dir/older-actual-outside"
+cmp "$tmp_dir/older-expected-outside" "$tmp_dir/older-actual-outside"
 
 newer_root="$tmp_dir/newer"
 mkdir -p "$newer_root/etc/claude-code"
