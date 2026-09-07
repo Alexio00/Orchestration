@@ -1,8 +1,8 @@
-<!-- GENERAL-5:BEGIN version=5.0.0 bootstrap=1.2.1 -->
+<!-- GENERAL-5:BEGIN version=5.0.0 bootstrap=1.2.2 -->
 # General 5 — repository activation
 
 Статус: активный репозиторный дистрибутив General 5.0.0.
-Activation Bootstrap: 1.2.1.
+Activation Bootstrap: 1.2.2.
 
 Канонический выпущенный текст: GENERAL-5.md в теге v5.0.0. Раздел «Ядро General 5.0.0» ниже должен совпадать с ним дословно. Внешние системные инструкции среды имеют приоритет.
 
