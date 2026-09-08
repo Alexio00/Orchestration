@@ -4,6 +4,8 @@ set -euo pipefail
 script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
 setup_file="$repo_root/CLAUDE-CODE-SETUP.sh"
+adapter_version="$(sed -n "s/^adapter_version='\([0-9][0-9.]*\)'$/\1/p" "$setup_file" | head -n 1)"
+begin_marker="<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=$adapter_version -->"
 tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 
@@ -23,7 +25,7 @@ expect_failure() {
 fresh_root="$tmp_dir/fresh"
 run_setup "$fresh_root"
 fresh_policy="$fresh_root/etc/claude-code/CLAUDE.md"
-grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.5 -->' "$fresh_policy"
+grep -Fxq "$begin_marker" "$fresh_policy"
 
 printf '\nCUSTOM-SUFFIX\n' >> "$fresh_policy"
 run_setup "$fresh_root"
@@ -46,9 +48,9 @@ printf '%s\n' \
 run_setup "$older_root"
 grep -Fxq 'CUSTOM-PREFIX' "$older_policy"
 grep -Fxq 'CUSTOM-SUFFIX' "$older_policy"
-grep -Fxq '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.5 -->' "$older_policy"
+grep -Fxq "$begin_marker" "$older_policy"
 older_prefix_line="$(grep -nFx 'CUSTOM-PREFIX' "$older_policy" | cut -d: -f1)"
-older_begin_line="$(grep -nFx '<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=1.2.5 -->' "$older_policy" | cut -d: -f1)"
+older_begin_line="$(grep -nFx "$begin_marker" "$older_policy" | cut -d: -f1)"
 older_end_line="$(grep -nFx '<!-- GENERAL-5-CLOUD-ADAPTER:END -->' "$older_policy" | cut -d: -f1)"
 older_suffix_line="$(grep -nFx 'CUSTOM-SUFFIX' "$older_policy" | cut -d: -f1)"
 (( older_prefix_line < older_begin_line ))

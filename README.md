@@ -4,7 +4,7 @@
 
 ## Статус
 
-**Актуальный выпуск: General 5.0.2. General 5.0.1 и 5.0.0 — архивные.** Статусы Bootstrap, адаптеров, публикации и активации указаны в [PROJECT-STATE.md](PROJECT-STATE.md).
+**Актуальный выпуск: General 5.0.2; General 5.0.1 и 5.0.0 — архивные. General 5.0.3 — candidate, не выпущен.** Статусы Bootstrap, адаптеров, публикации и активации указаны в [PROJECT-STATE.md](PROJECT-STATE.md).
 
 Установка текста создаёт постоянную точку входа, но сама по себе не доказывает активацию. Статус `activated` присваивается только после новой сессии, фактической загрузки инструкций и наблюдаемой квитанции.
 
@@ -20,11 +20,15 @@ General 5 предназначен для проектной работы, в к
 
 ## Навигация
 
-- [GENERAL-5.md](GENERAL-5.md) — неизменяемое ядро актуального General 5.0.2.
+- [GENERAL-5.md](GENERAL-5.md) — ядро; выпущенная версия неизменяема, версия указана в самом файле.
 - [ACTIVATION.md](ACTIVATION.md) — матрица сред, установка, проверка и troubleshooting.
-- [ACTIVATION-BOOTSTRAP.md](ACTIVATION-BOOTSTRAP.md) — канонический preflight и контракт файлов.
+- [ACTIVATION-BOOTSTRAP.md](ACTIVATION-BOOTSTRAP.md) — канонический preflight и контракт файлов; применим в любой среде.
+- [ACTIVATION-GIT.md](ACTIVATION-GIT.md) — дополнение для сред с доступом к репозиторию: ветки, PR, сохранение.
 - [PROJECT-STATE.md](PROJECT-STATE.md) — актуальное состояние и следующий шаг.
 - [PROJECT-STATE.template.md](PROJECT-STATE.template.md) — схема нового снимка.
+- [OPS-DELEGATION.md](OPS-DELEGATION.md) — механика делегирования; справочное приложение вне контекста старта.
+- [OPS-ROLES.md](OPS-ROLES.md) — роли проверяющего и разработчика; справочное приложение вне контекста старта.
+- [evals/general-behavioral-scenarios-v2.json](evals/general-behavioral-scenarios-v2.json) — поведенческие сценарии и условия прогона; спецификация не является доказательством выполнения.
 - [KNOWN-FEATURES.md](KNOWN-FEATURES.md) — принятые PO особенности.
 - [DEVELOPMENT-PLAN.md](DEVELOPMENT-PLAN.md) — исторический план; актуальный шаг находится только в PROJECT-STATE.
 - [Публичная страница активации](https://alexio00.github.io/Orchestration-pages/) — копируемые инструкции для поддерживаемых сред.
