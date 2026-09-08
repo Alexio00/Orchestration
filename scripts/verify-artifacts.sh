@@ -94,10 +94,20 @@ if grep -qF 'GENERAL-5-ACTIVATION repository=' "$project_file"; then
   printf 'PROJECT-INSTRUCTIONS.md must not carry repository-only activation rules.\n' >&2
   exit 1
 fi
+if grep -qF 'ACTIVATION-GIT.md' "$project_file"; then
+  printf 'PROJECT-INSTRUCTIONS.md must not point at a supplement it does not carry.\n' >&2
+  exit 1
+fi
 grep -Fq 'Activation Git' "$tmp_dir/CLOUD-PAYLOAD.md" || {
   printf 'Cloud payload is missing the Activation Git supplement.\n' >&2
   exit 1
 }
+
+cloud_characters="$(wc -m < "$tmp_dir/CLOUD-PAYLOAD.md")"
+if (( cloud_characters > 12000 )); then
+  printf 'Cloud payload exceeds the 12000 character budget: %s.\n' "$cloud_characters" >&2
+  exit 1
+fi
 
 awk '
   $0 == "## Ядро General " version { found = 1; next }
@@ -135,6 +145,9 @@ grep -Fq 'expected_release_status="Статус: **выпущено — General 
 grep -Fq 'grep -Fxq "$expected_release_status" "$general_file"' "$script_dir/publish-pages.sh"
 grep -Fq 'grep -Fxq "$expected_bootstrap_status" "$bootstrap_file"' "$script_dir/publish-pages.sh"
 grep -Fq 'cp "$delegation_file" "$snapshot_tmp/ops-delegation.md"' "$script_dir/publish-pages.sh"
+grep -Fq 'snapshot_id="$release_tag-bootstrap-$bootstrap_version-git-$git_version-cloud-$adapter_version"' "$script_dir/publish-pages.sh"
+grep -Fq "default: v$general_version" "$repo_root/.github/workflows/publish-pages.yml"
+grep -Fq 'OPS-DELEGATION.md' "$repo_root/.github/workflows/publish-pages.yml"
 grep -Fq 'grep -Fxq "$expected_git_status" "$git_file"' "$script_dir/publish-pages.sh"
 grep -Fq 'grep -Fxq "$expected_adapter_status" "$setup_file"' "$script_dir/publish-pages.sh"
 

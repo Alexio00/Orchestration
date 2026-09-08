@@ -8,7 +8,7 @@ on:
       release_tag:
         description: Stable General release tag
         required: false
-        default: v5.0.2
+        default: v5.0.3
 
 permissions:
   contents: read
@@ -68,7 +68,7 @@ jobs:
             tag="$(git describe --tags --abbrev=0 --match 'v[0-9]*' HEAD)"
           fi
           printf 'tag=%s\n' "$tag" >> "$GITHUB_OUTPUT"
-          artifact_revision="$(git log -1 --format=%H -- GENERAL-5.md PROJECT-INSTRUCTIONS.md CLAUDE-CODE-SETUP.sh)"
+          artifact_revision="$(git log -1 --format=%H -- GENERAL-5.md PROJECT-INSTRUCTIONS.md CLAUDE-CODE-SETUP.sh OPS-DELEGATION.md)"
           printf 'artifact_revision=%s\n' "$artifact_revision" >> "$GITHUB_OUTPUT"
 
       - name: Checkout public pages

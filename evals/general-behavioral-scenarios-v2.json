@@ -456,7 +456,8 @@
       "category": "tooling",
       "rules": [
         2,
-        3
+        3,
+        7
       ],
       "request": "Механически переименуй одно поле в 200 однородных JSON-файлах и проверь результат.",
       "expected_execution": "single_agent",

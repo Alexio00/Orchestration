@@ -5,6 +5,7 @@ script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 repo_root="$(cd "$script_dir/.." && pwd)"
 setup_file="$repo_root/CLAUDE-CODE-SETUP.sh"
 payload_dir="$(mktemp -d)"
+trap 'rm -rf "$payload_dir"' EXIT
 payload_file="$payload_dir/CLOUD-PAYLOAD.md"
 "$script_dir/build-cloud-payload.sh" "$payload_file"
 start_line="cat >> \"\$tmp_policy\" <<'GENERAL5_PROJECT_INSTRUCTIONS'"
@@ -37,4 +38,5 @@ awk -v start="$start_line" -v finish="$end_line" -v payload="$payload_file" '
 
 chmod --reference="$setup_file" "$tmp_file"
 mv "$tmp_file" "$setup_file"
+rm -rf "$payload_dir"
 trap - EXIT

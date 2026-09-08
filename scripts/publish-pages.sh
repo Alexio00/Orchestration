@@ -60,7 +60,7 @@ if [[ "$release_tag" != "v$general_version" ]]; then
   printf 'General release tag %s does not match General %s.\n' "$release_tag" "$general_version" >&2
   exit 1
 fi
-snapshot_id="$release_tag-bootstrap-$bootstrap_version-cloud-$adapter_version"
+snapshot_id="$release_tag-bootstrap-$bootstrap_version-git-$git_version-cloud-$adapter_version"
 version_dir="$target_root/content/releases/$snapshot_id"
 latest_dir="$target_root/content/latest"
 snapshot_tmp="$(mktemp -d)"

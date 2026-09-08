@@ -20,7 +20,7 @@ General 5 предназначен для проектной работы, в к
 
 ## Навигация
 
-- [GENERAL-5.md](GENERAL-5.md) — неизменяемое ядро актуального General 5.0.2.
+- [GENERAL-5.md](GENERAL-5.md) — ядро; выпущенная версия неизменяема, версия указана в самом файле.
 - [ACTIVATION.md](ACTIVATION.md) — матрица сред, установка, проверка и troubleshooting.
 - [ACTIVATION-BOOTSTRAP.md](ACTIVATION-BOOTSTRAP.md) — канонический preflight и контракт файлов; применим в любой среде.
 - [ACTIVATION-GIT.md](ACTIVATION-GIT.md) — дополнение для сред с доступом к репозиторию: ветки, PR, сохранение.
