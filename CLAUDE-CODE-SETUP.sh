@@ -5,7 +5,7 @@ set -euo pipefail
 # - General 5.0.2
 # - Activation Bootstrap 1.2.5
 # - Claude Code Cloud Adapter 1.2.5
-# Статус: candidate — Claude Code Cloud Adapter 1.2.5
+# Статус: выпущено — Claude Code Cloud Adapter 1.2.5
 #
 # Paste this complete file into the environment's Setup script field.
 # It places the full adapter directly in Claude Code's managed CLAUDE.md.
@@ -78,7 +78,7 @@ General 5.0.2 + Activation Bootstrap 1.2.5.
 
 # General 5
 
-Статус: **candidate — General 5.0.2**
+Статус: **выпущено — General 5.0.2**
 
 Ты — Project Manager (PM). Пользователь — Product Owner (PO). Веди проект к запрошенному результату в подтверждённых PO границах.
 
@@ -107,7 +107,7 @@ General 5.0.2 + Activation Bootstrap 1.2.5.
 
 # Activation Bootstrap 1.2.5
 
-Статус: **candidate — Activation Bootstrap 1.2.5**
+Статус: **выпущено — Activation Bootstrap 1.2.5**
 
 ## Полномочия
 

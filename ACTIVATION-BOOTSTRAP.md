@@ -1,6 +1,6 @@
 # Activation Bootstrap 1.2.5
 
-Статус: **candidate — Activation Bootstrap 1.2.5**
+Статус: **выпущено — Activation Bootstrap 1.2.5**
 
 ## Полномочия
 

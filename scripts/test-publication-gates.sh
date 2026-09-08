@@ -19,6 +19,10 @@ git -C "$source_copy" init -q
 git -C "$source_copy" config user.name test
 git -C "$source_copy" config user.email test@example.invalid
 
+sed -i 's/Статус: \*\*выпущено — General 5.0.2\*\*/Статус: **candidate — General 5.0.2**/' "$source_copy/GENERAL-5.md"
+sed -i 's/Статус: \*\*выпущено — Activation Bootstrap 1.2.5\*\*/Статус: **candidate — Activation Bootstrap 1.2.5**/' "$source_copy/ACTIVATION-BOOTSTRAP.md"
+sed -i 's/# Статус: выпущено — Claude Code Cloud Adapter 1.2.5/# Статус: candidate — Claude Code Cloud Adapter 1.2.5/' "$source_copy/CLAUDE-CODE-SETUP.sh"
+
 expect_rejection() {
   local expected="$1"
   local output
