@@ -6,9 +6,9 @@
 Ревизия артефактов: 5619fb15a03b8b92f208d6f6aea9745e48b9ddc1
 База снимка: 21a77d95ed656475d70b38ce59d4063399ab42b9
 Текущий HEAD: проверяется при чтении
-Активная версия General: 5.0.2 — released, publication pending; 5.0.1 и 5.0.0 — archived
-Bootstrap и Cloud Adapter: 1.2.5 — released, publication pending; 1.2.4 — archived, activated; 1.2.3 — ошибочный snapshot непригоден
-Ревизия снимка: 20
+Активная версия General: 5.0.2 — released, published, activation pending; 5.0.1 и 5.0.0 — archived
+Bootstrap и Cloud Adapter: 1.2.5 — released, published, activation pending; 1.2.4 — archived, activated; 1.2.3 — ошибочный snapshot непригоден
+Ревизия снимка: 21
 
 ## Цель
 
@@ -56,25 +56,26 @@ Bootstrap и Cloud Adapter: 1.2.5 — released, publication pending; 1.2.4 — a
 - Независимые аудиты exact subject `04cbc37762b3567358c357d86b4e9097c695e292` завершены: критических findings нет; подтверждены три Major и три Minor, один Minor freshness закрыт state-only PR #10.
 - PR #10 смержен как state-only commit `90c50131bccb46260ba91175eb234f4f4bee6de6`; post-merge CI успешен.
 - PR #11 смержен методом squash как `21a77d95ed656475d70b38ce59d4063399ab42b9`; все три Major и два Minor интегрированы, проверки успешны.
+- PR #12 смержен методом squash как `147e00e34a5b6103574cc955857e84cfb93cf797`; тег и GitHub Release `v5.0.2` указывают на него.
+- Workflow `34225801536` успешно опубликовал snapshot `v5.0.2-bootstrap-1.2.5-cloud-1.2.5`; latest manifest совпадает по версиям и source revision.
 
 ## Текущее состояние
 
-Release-коммит переводит General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5 в `released`. Публикация и активация ещё не подтверждены. General 5.0.1 и прежние версии остаются неизменяемой историей.
+General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5 выпущены и опубликованы из `main@147e00e34a5b6103574cc955857e84cfb93cf797`. Живая активация нового выпуска ещё не подтверждена. General 5.0.1 и прежние версии остаются неизменяемой историей.
 
 ## Открытые вопросы
 
-- Будет ли release-коммит интегрирован без изменения exact subject?
-- Будут ли тег `v5.0.2`, GitHub Release и публичный snapshot подтверждены на точном release-коммите?
+- Пройдёт ли живая активация General 5.0.2 / Bootstrap 1.2.5 в заявленных средах без расхождений?
 
 ## Следующий шаг
 
-Создать release PR, проверить exact subject и CI, смержить по решению PO, затем создать `v5.0.2` и подтвердить публикацию.
+Провести живую активацию General 5.0.2 / Bootstrap 1.2.5 и после подтверждения обновить статус до `activated`.
 
 ## Контекст следующего шага
 
-- Release artifacts revision: `5619fb15a03b8b92f208d6f6aea9745e48b9ddc1`; state-only commit после неё drift артефактов не создаёт.
-- Тег `v5.0.2` должен указывать на точный интегрированный release-коммит, содержащий released-статусы всех трёх компонентов.
-- После GitHub Release проверить workflow, Pages deploy, manifest и snapshot `v5.0.2-bootstrap-1.2.5-cloud-1.2.5`.
+- Release source revision: `147e00e34a5b6103574cc955857e84cfb93cf797`; state-only commit после неё drift артефактов не создаёт.
+- Для live-test использовать опубликованный snapshot `v5.0.2-bootstrap-1.2.5-cloud-1.2.5` и новую сессию каждой заявленной среды.
+- Проверить загрузку General/Bootstrap, activation receipt, сохранение пользовательского текста и остановку перед merge.
 - `KNOWN-FEATURES.md` — принятые PO особенности, не дефекты без нового воспроизводимого основания.
 
 ## Справочный контекст
@@ -86,14 +87,15 @@ Release-коммит переводит General 5.0.2 и Bootstrap/Cloud Adapter
 
 ## Внешние изменяемые факты
 
-- `main=21a77d95ed656475d70b38ce59d4063399ab42b9`; источник: GitHub commits API; `checked_at=2026-09-08`; повторять перед merge release PR и созданием тега.
+- `main=147e00e34a5b6103574cc955857e84cfb93cf797`; источник: GitHub commits API; `checked_at=2026-09-08`; повторять перед записью или live-test нового subject.
 - Snapshot `v5.0.1-bootstrap-1.2.3-cloud-1.2.3` содержит candidate source revision `a37a49d99038b57e0d2051084e3eb85428815f68`; источник: публичный manifest Orchestration Pages; `checked_at=2026-09-08`; повторять при изменении manifest или политики snapshots.
 - Snapshot `v5.0.1-bootstrap-1.2.4-cloud-1.2.4` содержит source revision `04cbc37762b3567358c357d86b4e9097c695e292`, `publishedAt=2026-09-08T07:50:56Z`; источник: публичный manifest Orchestration Pages; `checked_at=2026-09-08`; повторять перед новым release или использованием публичного пакета как exact evidence.
+- Snapshot `v5.0.2-bootstrap-1.2.5-cloud-1.2.5` содержит source revision `147e00e34a5b6103574cc955857e84cfb93cf797`; источник: публичный manifest Orchestration Pages; `checked_at=2026-09-08`; повторять перед live-test или использованием пакета как exact evidence.
 - Live activation General 5.0.1 / Bootstrap 1.2.4 подтверждён PO; источник: сообщение PO 2026-09-08; `checked_at=2026-09-08`; повторять после изменения General, Bootstrap/Adapter или способа активации.
 
 ## Риски и расхождения
 
-- General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5 ещё не опубликованы и не активированы.
+- General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5 ещё не подтверждены как `activated` в живых средах.
 - GitHub-коннектор текущей среды не умеет удалять branch refs; ручное удаление остаётся действием PO.
 - PROJECT-INSTRUCTIONS занимает 7952 из 8000 символов; запас мал, дальнейшие изменения требуют сокращения или новой границы.
 
