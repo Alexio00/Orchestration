@@ -26,6 +26,12 @@ if [[ -z "$general_version" || -z "$bootstrap_version" || -z "$adapter_version" 
   exit 1
 fi
 
+expected_release_status="Статус: **выпущено — General $general_version**"
+if ! grep -Fxq "$expected_release_status" "$general_file"; then
+  printf 'Refusing to publish General %s without released status.\n' "$general_version" >&2
+  exit 1
+fi
+
 if [[ ! "$release_tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
   printf 'Invalid General release tag: %s\n' "$release_tag" >&2
   exit 1

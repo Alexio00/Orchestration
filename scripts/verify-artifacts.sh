@@ -70,6 +70,8 @@ bash -n "$setup_file"
 bash -n "$script_dir/build-project-instructions.sh"
 bash -n "$script_dir/sync-setup-payload.sh"
 bash -n "$script_dir/publish-pages.sh"
+grep -Fq 'expected_release_status="Статус: **выпущено — General $general_version**"' "$script_dir/publish-pages.sh"
+grep -Fq 'grep -Fxq "$expected_release_status" "$general_file"' "$script_dir/publish-pages.sh"
 
 printf 'Verified General %s, Bootstrap %s and Cloud Adapter %s artifacts.\n' \
   "$general_version" "$bootstrap_version" "$adapter_version"
