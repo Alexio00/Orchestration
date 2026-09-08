@@ -10,7 +10,7 @@ mkdir -p "$tmp_dir/repo"
 cp -R "$repo_root/scripts" "$tmp_dir/repo/scripts"
 cp -R "$repo_root/.github" "$tmp_dir/repo/.github"
 cp "$repo_root/GENERAL-5.md" "$repo_root/ACTIVATION-BOOTSTRAP.md" "$repo_root/ACTIVATION-GIT.md" \
-  "$repo_root/PROJECT-INSTRUCTIONS.md" "$repo_root/AGENTS.md" "$repo_root/OPS-DELEGATION.md" \
+  "$repo_root/PROJECT-INSTRUCTIONS.md" "$repo_root/AGENTS.md" "$repo_root/OPS-DELEGATION.md" "$repo_root/OPS-ROLES.md" \
   "$repo_root/CLAUDE-CODE-SETUP.sh" "$repo_root/ACTIVATION.md" \
   "$repo_root/PROJECT-STATE.md" "$repo_root/.gitignore" "$tmp_dir/repo/"
 

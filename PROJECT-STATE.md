@@ -29,7 +29,7 @@ Bootstrap и Cloud Adapter: 1.2.5 — released, published, activated; Bootstrap 
 - Удаление веток не автоматизируется: после merge оркестратор даёт PO ссылку для ручного удаления.
 - Особенности запуска Codex/Qwen, доверия к источникам и разрешений cloud-адаптера приняты в `KNOWN-FEATURES.md`.
 - 2026-09-08 — собрать финальный оркестратор из General 5 и архивного `Orchestration_old`; выпускать в текущем репозитории; поддерживать все среды, включая ChatGPT Projects с лимитом 8000 символов.
-- 2026-09-08 — независимый аудит проводить внутри цикла новой версии; работа ведётся в ветке `claude/orchestrator-research-plan-oir3in` с draft PR.
+- 2026-09-08 — аудит проводить внутри цикла новой версии; работа в ветке `claude/orchestrator-research-plan-oir3in` с draft PR; евал в этом цикле не прогонять — цифры изменятся вместе с продуктом.
 
 ## Завершено
 
@@ -37,7 +37,8 @@ Bootstrap и Cloud Adapter: 1.2.5 — released, published, activated; Bootstrap 
 - Правила 3, 4 и 7 ядра уточнены переносом из архивного `core/general-4.1-kernel-1.md`; механика делегирования вынесена в `OPS-DELEGATION.md` вне контекста старта.
 - Схема снимка запрещает журнал; бюджеты в CI: ядро 3000, `AGENTS.md` 4500, снимок 5500, адаптер ChatGPT 8000.
 - Восстановлен евал: 24 сценария с run-policy и токенными метриками; CI требует сценария на каждое правило ядра.
-- Аудит кандидата двумя проверяющими со свежим контекстом; 7 major и 18 minor исправлены.
+- Аудит кандидата двумя проверяющими; 7 major и 18 minor исправлены.
+- Роли проверяющего и разработчика перенесены в `OPS-ROLES.md`; промпт-аудит убрал журнал версий из `ACTIVATION.md`.
 
 ## Текущее состояние
 
@@ -55,7 +56,7 @@ General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5 выпущены, опублик�
 ## Контекст следующего шага
 
 - Candidate: `GENERAL-5.md`, `ACTIVATION-BOOTSTRAP.md`, `ACTIVATION-GIT.md`, `OPS-DELEGATION.md`.
-- Евал: `evals/general-behavioral-scenarios-v2.json`; прогон требует run evidence со ссылкой на trace.
+- Евал: `evals/general-behavioral-scenarios-v2.json`; прогон отложен решением PO.
 
 ## Справочный контекст
 

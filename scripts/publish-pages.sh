@@ -10,10 +10,11 @@ general_file="$source_root/GENERAL-5.md"
 bootstrap_file="$source_root/ACTIVATION-BOOTSTRAP.md"
 git_file="$source_root/ACTIVATION-GIT.md"
 delegation_file="$source_root/OPS-DELEGATION.md"
+roles_file="$source_root/OPS-ROLES.md"
 project_file="$source_root/PROJECT-INSTRUCTIONS.md"
 setup_file="$source_root/CLAUDE-CODE-SETUP.sh"
 
-for required in "$general_file" "$bootstrap_file" "$git_file" "$delegation_file" "$project_file" "$setup_file"; do
+for required in "$general_file" "$bootstrap_file" "$git_file" "$delegation_file" "$roles_file" "$project_file" "$setup_file"; do
   if [[ ! -f "$required" ]]; then
     printf 'Required public artifact is missing: %s\n' "$required" >&2
     exit 1
@@ -79,6 +80,7 @@ rm -f "$snapshot_tmp/tagged-general.md"
 
 cp "$general_file" "$snapshot_tmp/general.md"
 cp "$delegation_file" "$snapshot_tmp/ops-delegation.md"
+cp "$roles_file" "$snapshot_tmp/ops-roles.md"
 cp "$project_file" "$snapshot_tmp/project-instructions.md"
 cp "$setup_file" "$snapshot_tmp/claude-code-setup.sh"
 
@@ -122,6 +124,7 @@ fi
 mkdir -p "$latest_dir"
 cp "$version_dir/general.md" "$latest_dir/general.md"
 cp "$version_dir/ops-delegation.md" "$latest_dir/ops-delegation.md"
+cp "$version_dir/ops-roles.md" "$latest_dir/ops-roles.md"
 cp "$version_dir/project-instructions.md" "$latest_dir/project-instructions.md"
 cp "$version_dir/claude-code-setup.sh" "$latest_dir/claude-code-setup.sh"
 cp "$version_dir/chat-prompt.txt" "$latest_dir/chat-prompt.txt"

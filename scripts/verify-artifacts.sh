@@ -9,6 +9,7 @@ trap 'rm -rf "$tmp_dir"' EXIT
 general_file="$repo_root/GENERAL-5.md"
 delegation_file="$repo_root/OPS-DELEGATION.md"
 state_file="$repo_root/PROJECT-STATE.md"
+roles_file="$repo_root/OPS-ROLES.md"
 bootstrap_file="$repo_root/ACTIVATION-BOOTSTRAP.md"
 git_file="$repo_root/ACTIVATION-GIT.md"
 project_file="$repo_root/PROJECT-INSTRUCTIONS.md"
@@ -85,6 +86,17 @@ if [[ ! -f "$delegation_file" ]]; then
 fi
 grep -Fq 'Приложение к General '"$general_version" "$delegation_file"
 grep -Fq '`OPS-DELEGATION.md`' "$agents_file"
+
+if [[ ! -f "$roles_file" ]]; then
+  printf 'OPS-ROLES.md is missing.\n' >&2
+  exit 1
+fi
+grep -Fq 'Приложение к General '"$general_version" "$roles_file"
+grep -Fq '`OPS-ROLES.md`' "$agents_file"
+if grep -qF 'OPS-ROLES' "$project_file"; then
+  printf 'PROJECT-INSTRUCTIONS.md must not depend on repository-only appendices.\n' >&2
+  exit 1
+fi
 if grep -qF 'OPS-DELEGATION' "$project_file"; then
   printf 'PROJECT-INSTRUCTIONS.md must not depend on repository-only appendices.\n' >&2
   exit 1
@@ -145,6 +157,7 @@ grep -Fq 'expected_release_status="Статус: **выпущено — General 
 grep -Fq 'grep -Fxq "$expected_release_status" "$general_file"' "$script_dir/publish-pages.sh"
 grep -Fq 'grep -Fxq "$expected_bootstrap_status" "$bootstrap_file"' "$script_dir/publish-pages.sh"
 grep -Fq 'cp "$delegation_file" "$snapshot_tmp/ops-delegation.md"' "$script_dir/publish-pages.sh"
+grep -Fq 'cp "$roles_file" "$snapshot_tmp/ops-roles.md"' "$script_dir/publish-pages.sh"
 grep -Fq 'snapshot_id="$release_tag-bootstrap-$bootstrap_version-git-$git_version-cloud-$adapter_version"' "$script_dir/publish-pages.sh"
 grep -Fq "default: v$general_version" "$repo_root/.github/workflows/publish-pages.yml"
 grep -Fq 'OPS-DELEGATION.md' "$repo_root/.github/workflows/publish-pages.yml"
