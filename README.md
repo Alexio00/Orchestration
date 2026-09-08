@@ -26,6 +26,7 @@ General 5 предназначен для проектной работы, в к
 - [ACTIVATION-GIT.md](ACTIVATION-GIT.md) — дополнение для сред с доступом к репозиторию: ветки, PR, сохранение.
 - [PROJECT-STATE.md](PROJECT-STATE.md) — актуальное состояние и следующий шаг.
 - [PROJECT-STATE.template.md](PROJECT-STATE.template.md) — схема нового снимка.
+- [OPS-DELEGATION.md](OPS-DELEGATION.md) — механика делегирования; справочное приложение вне контекста старта.
 - [KNOWN-FEATURES.md](KNOWN-FEATURES.md) — принятые PO особенности.
 - [DEVELOPMENT-PLAN.md](DEVELOPMENT-PLAN.md) — исторический план; актуальный шаг находится только в PROJECT-STATE.
 - [Публичная страница активации](https://alexio00.github.io/Orchestration-pages/) — копируемые инструкции для поддерживаемых сред.

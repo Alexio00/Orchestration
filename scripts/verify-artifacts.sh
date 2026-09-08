@@ -7,6 +7,7 @@ tmp_dir="$(mktemp -d)"
 trap 'rm -rf "$tmp_dir"' EXIT
 
 general_file="$repo_root/GENERAL-5.md"
+delegation_file="$repo_root/OPS-DELEGATION.md"
 bootstrap_file="$repo_root/ACTIVATION-BOOTSTRAP.md"
 git_file="$repo_root/ACTIVATION-GIT.md"
 project_file="$repo_root/PROJECT-INSTRUCTIONS.md"
@@ -59,6 +60,29 @@ if (( project_characters > 8000 )); then
   exit 1
 fi
 
+general_characters="$(wc -m < "$general_file")"
+if (( general_characters > 3000 )); then
+  printf 'GENERAL-5.md exceeds the 3000 character budget: %s.\n' "$general_characters" >&2
+  exit 1
+fi
+
+agents_characters="$(wc -m < "$agents_file")"
+if (( agents_characters > 4500 )); then
+  printf 'AGENTS.md exceeds the 4500 character budget: %s.\n' "$agents_characters" >&2
+  exit 1
+fi
+
+if [[ ! -f "$delegation_file" ]]; then
+  printf 'OPS-DELEGATION.md is missing.\n' >&2
+  exit 1
+fi
+grep -Fq 'Приложение к General '"$general_version" "$delegation_file"
+grep -Fq '`OPS-DELEGATION.md`' "$agents_file"
+if grep -qF 'OPS-DELEGATION' "$project_file"; then
+  printf 'PROJECT-INSTRUCTIONS.md must not depend on repository-only appendices.\n' >&2
+  exit 1
+fi
+
 if grep -qF 'GENERAL-5-ACTIVATION repository=' "$project_file"; then
   printf 'PROJECT-INSTRUCTIONS.md must not carry repository-only activation rules.\n' >&2
   exit 1
@@ -103,6 +127,7 @@ grep -Fq "if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/he
 grep -Fq 'expected_release_status="Статус: **выпущено — General $general_version**"' "$script_dir/publish-pages.sh"
 grep -Fq 'grep -Fxq "$expected_release_status" "$general_file"' "$script_dir/publish-pages.sh"
 grep -Fq 'grep -Fxq "$expected_bootstrap_status" "$bootstrap_file"' "$script_dir/publish-pages.sh"
+grep -Fq 'cp "$delegation_file" "$snapshot_tmp/ops-delegation.md"' "$script_dir/publish-pages.sh"
 grep -Fq 'grep -Fxq "$expected_git_status" "$git_file"' "$script_dir/publish-pages.sh"
 grep -Fq 'grep -Fxq "$expected_adapter_status" "$setup_file"' "$script_dir/publish-pages.sh"
 

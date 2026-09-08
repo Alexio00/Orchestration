@@ -42,6 +42,7 @@ Bootstrap и Cloud Adapter: 1.2.5 — released, published, activated; 1.2.4 — 
 - 2026-09-08 — PO подтвердил поддержку всех сред, включая ChatGPT Projects: лимит 8000 символов инструкций остаётся проектным ограничением.
 - 2026-09-08 — PO решил выпускать новую версию в текущем репозитории Orchestration, а не в новом.
 - 2026-09-08 — PO разрешил работу в ветке `claude/orchestrator-research-plan-oir3in` и открытие draft PR.
+- 2026-09-08 — PO поручил продолжить переносом правил из архивного General 4.1.
 - 2026-09-08 — PO поручил подготовить General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5, закрыв три Major и два оставшихся Minor.
 - 2026-09-08 — независимый exact-subject review подтвердил закрытие всех пяти findings; PO разрешил merge PR #11, затем поручил выполнить release.
 - 2026-09-08 — PO подтвердил активацию General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5 перед merge post-release state checkpoint.
