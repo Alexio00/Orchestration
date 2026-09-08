@@ -8,11 +8,12 @@ trap 'rm -rf "$tmp_dir"' EXIT
 
 mkdir -p "$tmp_dir/repo"
 cp -R "$repo_root/scripts" "$tmp_dir/repo/scripts"
-cp "$repo_root/GENERAL-5.md" "$repo_root/ACTIVATION-BOOTSTRAP.md" \
+cp "$repo_root/GENERAL-5.md" "$repo_root/ACTIVATION-BOOTSTRAP.md" "$repo_root/ACTIVATION-GIT.md" \
   "$repo_root/PROJECT-INSTRUCTIONS.md" "$repo_root/AGENTS.md" \
   "$repo_root/CLAUDE-CODE-SETUP.sh" "$repo_root/ACTIVATION.md" "$tmp_dir/repo/"
 
-printf '\n<!-- GENERAL-5:BEGIN version=5.0.2 bootstrap=1.2.5 -->\n' >> "$tmp_dir/repo/AGENTS.md"
+existing_marker="$(grep -m1 -F 'GENERAL-5:BEGIN' "$repo_root/AGENTS.md")"
+printf '\n%s\n' "$existing_marker" >> "$tmp_dir/repo/AGENTS.md"
 if bash "$tmp_dir/repo/scripts/verify-artifacts.sh" >/dev/null 2>&1; then
   printf 'Verifier accepted ambiguous General markers.\n' >&2
   exit 1

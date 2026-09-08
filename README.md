@@ -4,7 +4,7 @@
 
 ## Статус
 
-**Актуальный выпуск: General 5.0.2. General 5.0.1 и 5.0.0 — архивные.** Статусы Bootstrap, адаптеров, публикации и активации указаны в [PROJECT-STATE.md](PROJECT-STATE.md).
+**Актуальный выпуск: General 5.0.2; General 5.0.1 и 5.0.0 — архивные. General 5.0.3 — candidate, не выпущен.** Статусы Bootstrap, адаптеров, публикации и активации указаны в [PROJECT-STATE.md](PROJECT-STATE.md).
 
 Установка текста создаёт постоянную точку входа, но сама по себе не доказывает активацию. Статус `activated` присваивается только после новой сессии, фактической загрузки инструкций и наблюдаемой квитанции.
 
@@ -22,7 +22,8 @@ General 5 предназначен для проектной работы, в к
 
 - [GENERAL-5.md](GENERAL-5.md) — неизменяемое ядро актуального General 5.0.2.
 - [ACTIVATION.md](ACTIVATION.md) — матрица сред, установка, проверка и troubleshooting.
-- [ACTIVATION-BOOTSTRAP.md](ACTIVATION-BOOTSTRAP.md) — канонический preflight и контракт файлов.
+- [ACTIVATION-BOOTSTRAP.md](ACTIVATION-BOOTSTRAP.md) — канонический preflight и контракт файлов; применим в любой среде.
+- [ACTIVATION-GIT.md](ACTIVATION-GIT.md) — дополнение для сред с доступом к репозиторию: ветки, PR, сохранение.
 - [PROJECT-STATE.md](PROJECT-STATE.md) — актуальное состояние и следующий шаг.
 - [PROJECT-STATE.template.md](PROJECT-STATE.template.md) — схема нового снимка.
 - [KNOWN-FEATURES.md](KNOWN-FEATURES.md) — принятые PO особенности.

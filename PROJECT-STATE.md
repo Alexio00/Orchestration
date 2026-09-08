@@ -2,7 +2,7 @@
 
 Снимок состояния: 2026-09-08
 Репозиторий: Alexio00/Orchestration
-Ветка: main
+Ветка: claude/orchestrator-research-plan-oir3in
 Ревизия артефактов: 5619fb15a03b8b92f208d6f6aea9745e48b9ddc1
 База снимка: 21a77d95ed656475d70b38ce59d4063399ab42b9
 Текущий HEAD: проверяется при чтении
@@ -37,6 +37,11 @@ Bootstrap и Cloud Adapter: 1.2.5 — released, published, activated; 1.2.4 — 
 - 2026-09-08 — тег и GitHub Release `v5.0.1` созданы на release-коммите; после отказа immutable gate PO разрешил remediation 1.2.4 без изменения General и тега.
 - 2026-09-08 — PO подтвердил успешный тест опубликованных General 5.0.1 и Bootstrap 1.2.4 без заявленных расхождений.
 - 2026-09-08 — PO поручил запустить независимые аудиты логики и промптов; аудит read-only и не включает автоматическое исправление findings.
+- 2026-09-08 — PO решил собрать финальный оркестратор из General 5 и архивного Orchestration_old, оптимизированный по объёму с самого начала.
+- 2026-09-08 — PO решил проводить независимый аудит уже внутри цикла новой версии, а не на 5.0.2.
+- 2026-09-08 — PO подтвердил поддержку всех сред, включая ChatGPT Projects: лимит 8000 символов инструкций остаётся проектным ограничением.
+- 2026-09-08 — PO решил выпускать новую версию в текущем репозитории Orchestration, а не в новом.
+- 2026-09-08 — PO разрешил работу в ветке `claude/orchestrator-research-plan-oir3in` и открытие draft PR.
 - 2026-09-08 — PO поручил подготовить General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5, закрыв три Major и два оставшихся Minor.
 - 2026-09-08 — независимый exact-subject review подтвердил закрытие всех пяти findings; PO разрешил merge PR #11, затем поручил выполнить release.
 - 2026-09-08 — PO подтвердил активацию General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5 перед merge post-release state checkpoint.

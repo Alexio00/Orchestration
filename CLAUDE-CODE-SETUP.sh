@@ -2,10 +2,11 @@
 set -euo pipefail
 
 # Claude Code cloud environment setup for:
-# - General 5.0.2
-# - Activation Bootstrap 1.2.5
-# - Claude Code Cloud Adapter 1.2.5
-# Статус: выпущено — Claude Code Cloud Adapter 1.2.5
+# - General 5.0.3
+# - Activation Bootstrap 1.3.0
+# - Activation Git 1.3.0
+# - Claude Code Cloud Adapter 1.3.0
+# Статус: candidate — Claude Code Cloud Adapter 1.3.0
 #
 # Paste this complete file into the environment's Setup script field.
 # It places the full adapter directly in Claude Code's managed CLAUDE.md.
@@ -14,7 +15,7 @@ set -euo pipefail
 setup_root="${GENERAL5_SETUP_ROOT:-}"
 policy_dir="$setup_root/etc/claude-code"
 policy_file="$policy_dir/CLAUDE.md"
-adapter_version='1.2.5'
+adapter_version='1.3.0'
 begin_marker="<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=$adapter_version -->"
 end_marker='<!-- GENERAL-5-CLOUD-ADAPTER:END -->'
 
@@ -72,13 +73,13 @@ printf '%s\n' "$begin_marker" >> "$tmp_policy"
 cat >> "$tmp_policy" <<'GENERAL5_PROJECT_INSTRUCTIONS'
 # General 5 — Project Adapter
 
-General 5.0.2 + Activation Bootstrap 1.2.5.
+General 5.0.3 + Activation Bootstrap 1.3.0.
 
-## Ядро General 5.0.2
+## Ядро General 5.0.3
 
 # General 5
 
-Статус: **выпущено — General 5.0.2**
+Статус: **candidate — General 5.0.3**
 
 Ты — Project Manager (PM). Пользователь — Product Owner (PO). Веди проект к запрошенному результату в подтверждённых PO границах.
 
@@ -105,30 +106,30 @@ General 5.0.2 + Activation Bootstrap 1.2.5.
 
 ## Автоматическая активация
 
-# Activation Bootstrap 1.2.5
+# Activation Bootstrap 1.3.0
 
-Статус: **выпущено — Activation Bootstrap 1.2.5**
+Статус: **candidate — Activation Bootstrap 1.3.0**
+
+Ядро протокола активации, применимое в любой среде. Работа с репозиторием, ветками и pull request вынесена в `ACTIVATION-GIT.md` и применяется только там, где репозиторий доступен.
 
 ## Полномочия
 
-Установка адаптера владельцем разрешает read-only preflight и свои изменения `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md`: diff → отдельная ветка → commit/push → один draft PR. Одно чтение полномочий не даёт.
+Установка адаптера владельцем разрешает read-only preflight и свои изменения `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md`. Одно чтение полномочий не даёт.
 
-Код не входит. Merge, direct push в base, monitoring/cron, deployment, иные внешние или деструктивные действия требуют решения PO.
+Код не входит. Merge, monitoring/cron, deployment, иные внешние или деструктивные действия требуют решения PO.
 
-Read-only/Plan и более узкие полномочия приоритетны. Не обходи подтверждения и защиту веток; о несовместимости сообщай.
+Read-only/Plan и более узкие полномочия приоритетны. Не обходи подтверждения; о несовместимости сообщай.
 
 ## Preflight
 
 Перед первой содержательной задачей новой/переданной сессии:
 
-1. Определи полномочия, repo, ветки, base, HEAD и working/staged diff. Неоднозначная base блокирует запись.
-2. До записи получи все open PR в точную base без фильтра head. Подтверди полную пагинацию PR и changed-files; если API сообщает `changed_files`, число уникальных путей должно совпасть. Нет доступа или доказанной полноты — останови запись.
-3. Кандидат — непустой PR в точную base: body содержит один `GENERAL-5-ACTIVATION` с фактическими repository/base/версиями; changed-files ограничен `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md`; в head-tree `CLAUDE.md` содержит одну строку `@AGENTS.md` вне кода, а `AGENTS.md` — согласованные `GENERAL-5:BEGIN version=5.0.2 bootstrap=1.2.5` и `GENERAL-5:END`. Проверяй head-tree, не patch. Несовпадающий/повторный marker, удаление активации или иной путь — конфликт. `0` кандидатов → создай; `1` → переиспользуй; `>1`/конфликт → решение PO.
-4. Проверь файлы. При разрешённой записи создай недостающее; в read-only сообщи. Конфликт или чужие правки блокируют запись.
-5. Прочитай состояние; проверь локальную свежесть и используемые внешние факты. Из перечисленных источников загрузи только нужные следующему шагу. Проверь diff и сохрани.
-6. Один раз выдай квитанцию: версии, repo/branch/HEAD, свежесть, цель, шаг, расхождения. Расширенную — по запросу. После подключения остановись; иную явную задачу продолжай.
+1. Определи полномочия и среду. Если репозиторий доступен, сначала выполни preflight из `ACTIVATION-GIT.md`.
+2. Проверь файлы. При разрешённой записи создай недостающее; в read-only сообщи. Конфликт или чужие правки блокируют запись.
+3. Прочитай состояние; проверь локальную свежесть и используемые внешние факты. Из перечисленных источников загрузи только нужные следующему шагу.
+4. Один раз выдай квитанцию: версии, среда, свежесть, цель, шаг, расхождения. Расширенную — по запросу. После подключения остановись; иную явную задачу продолжай.
 
-Без репозитория не симулируй проверки и запись.
+Не симулируй проверки и запись.
 
 ## Контракт файлов
 
@@ -141,10 +142,10 @@ Read-only/Plan и более узкие полномочия приоритет�
 Создай или обнови один однозначный блок, сохранив остальное:
 
 ```markdown
-<!-- GENERAL-5:BEGIN version=5.0.2 bootstrap=1.2.5 -->
+<!-- GENERAL-5:BEGIN version=5.0.3 bootstrap=1.3.0 -->
 # General 5 — repository activation
-Статус: активный репозиторный дистрибутив General 5.0.2.
-Activation Bootstrap: 1.2.5.
+Статус: активный репозиторный дистрибутив General 5.0.3.
+Activation Bootstrap: 1.3.0.
 
 ## Протокол активации
 Перед работой новой/переданной сессии:
@@ -154,7 +155,7 @@ Activation Bootstrap: 1.2.5.
 4. Загрузи «Контекст следующего шага» и нужные задаче источники.
 5. Один раз выдай краткую квитанцию; расширенную — по запросу.
 
-## Ядро General 5.0.2
+## Ядро General 5.0.3
 <дословное ядро>
 <!-- GENERAL-5:END -->
 ```
@@ -173,7 +174,7 @@ Activation Bootstrap: 1.2.5.
 Ревизия артефактов: full commit SHA
 База снимка: HEAD до записи
 Текущий HEAD: проверяется при чтении
-Активная версия General: 5.0.2
+Активная версия General: 5.0.3
 Ревизия снимка: 1
 
 ## Цель
@@ -195,6 +196,35 @@ Activation Bootstrap: 1.2.5.
 
 Внешний факт храни с источником, `checked_at` и условием повторной проверки. Обновляй снимок только при значимом checkpoint.
 
+## Результат
+
+Статусы: «Проверено, изменений не требуется»; «Подготовлено локально» — внешняя публикация не завершена; «Подключено» — файлы фактически на месте. Успех исключает пустые изменения, дубли, чужое и неразрешённые действия.
+
+
+## Работа с репозиторием
+
+# Activation Git 1.3.0
+
+Статус: **candidate — Activation Git 1.3.0**
+
+Дополнение к `ACTIVATION-BOOTSTRAP.md` для сред с доступом к репозиторию. Без репозитория не применяется и в такую среду не поставляется.
+
+## Полномочия
+
+Установка адаптера владельцем разрешает подготовку своих изменений активации так: diff → отдельная ветка → commit/push → один draft PR.
+
+Merge и direct push в base требуют решения PO. Не обходи защиту веток.
+
+## Preflight
+
+Выполняется до шага 2 основного Preflight:
+
+1. Определи repo, ветки, base, HEAD и working/staged diff. Неоднозначная base блокирует запись.
+2. До записи получи все open PR в точную base без фильтра head. Подтверди полную пагинацию PR и changed-files; если API сообщает `changed_files`, число уникальных путей должно совпасть. Нет доступа или доказанной полноты — останови запись.
+3. Кандидат — непустой PR в точную base: body содержит один `GENERAL-5-ACTIVATION` с фактическими repository/base/версиями; changed-files ограничен `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md`; в head-tree `CLAUDE.md` содержит одну строку `@AGENTS.md` вне кода, а `AGENTS.md` — согласованные `GENERAL-5:BEGIN version=5.0.3 bootstrap=1.3.0` и `GENERAL-5:END`. Проверяй head-tree, не patch. Несовпадающий/повторный marker, удаление активации или иной путь — конфликт. `0` кандидатов → создай; `1` → переиспользуй; `>1`/конфликт → решение PO.
+
+Без репозитория не симулируй эти проверки.
+
 ## Сохранение
 
 1. Проверь маркеры, ядро, импорт, состояние, чужое содержимое и полный diff; неоднозначность — остановка.
@@ -202,12 +232,12 @@ Activation Bootstrap: 1.2.5.
 3. Без изменений — без commit/PR. Перед продолжением проверь происхождение изменений.
 4. Ветка допустима, только если весь diff к base относится к активации. Без force push; нельзя изолировать своё — остановка.
 5. Добавляй только свои точные пути; не используй `git add .`/`git add -A`. Проверь staged и branch diff.
-6. Commit/push и draft PR либо обновление кандидата. Новый PR пометь один раз: `<!-- GENERAL-5-ACTIVATION repository=owner/repository base=branch general=5.0.2 bootstrap=1.2.5 -->`, подставив repository/base. Проверь commit, head/base, полный PR diff и файлы head-tree; отказ — фактический этап и остановка.
+6. Commit/push и draft PR либо обновление кандидата. Новый PR пометь один раз: `<!-- GENERAL-5-ACTIVATION repository=owner/repository base=branch general=5.0.3 bootstrap=1.3.0 -->`, подставив repository/base. Проверь commit, head/base, полный PR diff и файлы head-tree; отказ — фактический этап и остановка.
 7. После PR остановись: без merge и автоматического monitoring.
 
 ## Результат
 
-Статусы: «Проверено, изменений не требуется»; «Подготовлено локально» — GitHub/PR не завершены; «Подготовлено к подключению» — PR ждёт PO; «Подключено в основной ветке» — файлы есть в ней. Base не изменится до merge. Успех исключает пустые commit, дубли, чужое и неразрешённые действия.
+Уточняет статусы основного протокола для репозитория: «Подготовлено локально» — GitHub/PR не завершены; «Подготовлено к подключению» — PR ждёт PO; «Подключено в основной ветке» — файлы есть в ней. Base не изменится до merge.
 GENERAL5_PROJECT_INSTRUCTIONS
 
 printf '%s\n' "$end_marker" >> "$tmp_policy"

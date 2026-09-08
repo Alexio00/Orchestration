@@ -3,15 +3,16 @@ set -euo pipefail
 
 source_root="${1:?source repository root is required}"
 target_root="${2:?pages repository root is required}"
-release_tag="${3:-v5.0.2}"
+release_tag="${3:-v5.0.3}"
 source_revision="${4:-unknown}"
 
 general_file="$source_root/GENERAL-5.md"
 bootstrap_file="$source_root/ACTIVATION-BOOTSTRAP.md"
+git_file="$source_root/ACTIVATION-GIT.md"
 project_file="$source_root/PROJECT-INSTRUCTIONS.md"
 setup_file="$source_root/CLAUDE-CODE-SETUP.sh"
 
-for required in "$general_file" "$bootstrap_file" "$project_file" "$setup_file"; do
+for required in "$general_file" "$bootstrap_file" "$git_file" "$project_file" "$setup_file"; do
   if [[ ! -f "$required" ]]; then
     printf 'Required public artifact is missing: %s\n' "$required" >&2
     exit 1
@@ -20,9 +21,10 @@ done
 
 general_version="$(sed -n 's/^Статус: .*General \([0-9][0-9.]*\).*/\1/p' "$general_file" | head -n 1)"
 bootstrap_version="$(sed -n 's/^General [0-9][0-9.]* + Activation Bootstrap \([0-9][0-9.]*\)\.$/\1/p' "$project_file" | head -n 1)"
+git_version="$(sed -n 's/^# Activation Git \([0-9][0-9.]*\)$/\1/p' "$git_file" | head -n 1)"
 adapter_version="$(sed -n 's/^# - Claude Code Cloud Adapter \([0-9][0-9.]*\)$/\1/p' "$setup_file" | head -n 1)"
 
-if [[ -z "$general_version" || -z "$bootstrap_version" || -z "$adapter_version" ]]; then
+if [[ -z "$general_version" || -z "$bootstrap_version" || -z "$git_version" || -z "$adapter_version" ]]; then
   printf 'Could not determine published component versions.\n' >&2
   exit 1
 fi
@@ -36,6 +38,11 @@ fi
 expected_bootstrap_status="Статус: **выпущено — Activation Bootstrap $bootstrap_version**"
 if ! grep -Fxq "$expected_bootstrap_status" "$bootstrap_file"; then
   printf 'Refusing to publish Activation Bootstrap %s without released status.\n' "$bootstrap_version" >&2
+  exit 1
+fi
+expected_git_status="Статус: **выпущено — Activation Git $git_version**"
+if ! grep -Fxq "$expected_git_status" "$git_file"; then
+  printf 'Refusing to publish Activation Git %s without released status.\n' "$git_version" >&2
   exit 1
 fi
 expected_adapter_status="# Статус: выпущено — Claude Code Cloud Adapter $adapter_version"
@@ -92,6 +99,7 @@ cat > "$snapshot_tmp/manifest.json" <<JSON
   "generalTag": "$release_tag",
   "snapshotId": "$snapshot_id",
   "bootstrapVersion": "$bootstrap_version",
+  "activationGitVersion": "$git_version",
   "cloudAdapterVersion": "$adapter_version",
   "sourceRevision": "$source_revision",
   "publishedAt": "$published_at",
@@ -116,5 +124,5 @@ cp "$version_dir/claude-code-setup.sh" "$latest_dir/claude-code-setup.sh"
 cp "$version_dir/chat-prompt.txt" "$latest_dir/chat-prompt.txt"
 cp "$version_dir/manifest.json" "$latest_dir/manifest.json"
 
-printf 'Prepared public artifacts for General %s, Bootstrap %s, Cloud Adapter %s.\n' \
-  "$general_version" "$bootstrap_version" "$adapter_version"
+printf 'Prepared public artifacts for General %s, Bootstrap %s, Activation Git %s, Cloud Adapter %s.\n' \
+  "$general_version" "$bootstrap_version" "$git_version" "$adapter_version"
