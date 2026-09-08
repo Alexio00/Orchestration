@@ -6,7 +6,7 @@ set -euo pipefail
 # - Activation Bootstrap 1.3.0
 # - Activation Git 1.3.0
 # - Claude Code Cloud Adapter 1.3.0
-# Статус: candidate — Claude Code Cloud Adapter 1.3.0
+# Статус: выпущено — Claude Code Cloud Adapter 1.3.0
 #
 # Paste this complete file into the environment's Setup script field.
 # It places the full adapter directly in Claude Code's managed CLAUDE.md.
@@ -79,7 +79,7 @@ General 5.0.3 + Activation Bootstrap 1.3.0.
 
 # General 5
 
-Статус: **candidate — General 5.0.3**
+Статус: **выпущено — General 5.0.3**
 
 Ты — Project Manager (PM). Пользователь — Product Owner (PO). Веди проект к запрошенному результату в подтверждённых PO границах.
 
@@ -108,7 +108,7 @@ General 5.0.3 + Activation Bootstrap 1.3.0.
 
 # Activation Bootstrap 1.3.0
 
-Статус: **candidate — Activation Bootstrap 1.3.0**
+Статус: **выпущено — Activation Bootstrap 1.3.0**
 
 Ядро протокола активации, применимое в любой среде. Работа с репозиторием, ветками и pull request вынесена в дополнение «Работа с репозиторием»: оно поставляется только туда, где репозиторий доступен, и в этой сборке может отсутствовать.
 
@@ -214,7 +214,7 @@ Activation Bootstrap: 1.3.0.
 
 # Activation Git 1.3.0
 
-Статус: **candidate — Activation Git 1.3.0**
+Статус: **выпущено — Activation Git 1.3.0**
 
 Дополнение «Работа с репозиторием» к `ACTIVATION-BOOTSTRAP.md`. Применяется только там, где репозиторий доступен, и в другие сборки не поставляется.
 

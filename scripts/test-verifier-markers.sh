@@ -14,6 +14,16 @@ cp "$repo_root/GENERAL-5.md" "$repo_root/ACTIVATION-BOOTSTRAP.md" "$repo_root/AC
   "$repo_root/CLAUDE-CODE-SETUP.sh" "$repo_root/ACTIVATION.md" \
   "$repo_root/PROJECT-STATE.md" "$repo_root/.gitignore" "$tmp_dir/repo/"
 
+general_version="$(sed -n 's/^Статус: \*\*\(candidate\|выпущено\) — General \([0-9][0-9.]*\)\*\*$/\2/p' "$repo_root/GENERAL-5.md" | head -n 1)"
+git -C "$tmp_dir/repo" init -q
+git -C "$tmp_dir/repo" config user.name test
+git -C "$tmp_dir/repo" config user.email test@example.invalid
+git -C "$tmp_dir/repo" add -A
+git -C "$tmp_dir/repo" commit -qm fixture
+if grep -Fq 'Статус: **выпущено — General ' "$repo_root/GENERAL-5.md"; then
+  git -C "$tmp_dir/repo" tag "v$general_version"
+fi
+
 if ! bash "$tmp_dir/repo/scripts/verify-artifacts.sh" >/dev/null 2>&1; then
   printf 'Fixture is unsound: verifier rejects the untouched copy.\n' >&2
   exit 1
