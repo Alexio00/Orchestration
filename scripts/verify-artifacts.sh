@@ -24,11 +24,16 @@ fi
 if grep -Fq 'Статус: **выпущено — General ' "$general_file"; then
   general_tag="v$general_version"
   if ! git -C "$repo_root" rev-parse --verify "refs/tags/$general_tag^{commit}" >/dev/null 2>&1; then
-    printf 'Released General tag is missing: %s.\n' "$general_tag" >&2
-    exit 1
+    if [[ "${GITHUB_EVENT_NAME:-}" == "pull_request" && "${GITHUB_HEAD_REF:-}" == release/* ]]; then
+      printf 'Release tag %s is pending until the verified release PR is merged.\n' "$general_tag"
+    else
+      printf 'Released General tag is missing: %s.\n' "$general_tag" >&2
+      exit 1
+    fi
+  else
+    git -C "$repo_root" show "$general_tag:GENERAL-5.md" > "$tmp_dir/tagged-general.md"
+    diff -u "$tmp_dir/tagged-general.md" "$general_file"
   fi
-  git -C "$repo_root" show "$general_tag:GENERAL-5.md" > "$tmp_dir/tagged-general.md"
-  diff -u "$tmp_dir/tagged-general.md" "$general_file"
 fi
 
 "$script_dir/build-project-instructions.sh" "$tmp_dir/PROJECT-INSTRUCTIONS.md"

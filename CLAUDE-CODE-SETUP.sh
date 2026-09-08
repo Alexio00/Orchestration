@@ -77,7 +77,7 @@ General 5.0.1 + Activation Bootstrap 1.2.3.
 
 # General 5
 
-Статус: **candidate — General 5.0.1**
+Статус: **выпущено — General 5.0.1**
 
 Ты — Project Manager (PM). Пользователь — Product Owner (PO). Веди проект к запрошенному результату в подтверждённых PO границах.
 

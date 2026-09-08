@@ -1,14 +1,14 @@
 # Project State — General 5
 
-Снимок состояния: 2026-09-07
+Снимок состояния: 2026-09-08
 Репозиторий: Alexio00/Orchestration
 Ветка: main
-Ревизия артефактов: bd6a5384b4d8f1f7f93df89e0b13a1366ee84a33
-База снимка: bd6a5384b4d8f1f7f93df89e0b13a1366ee84a33
+Ревизия артефактов: a37a49d99038b57e0d2051084e3eb85428815f68
+База снимка: a37a49d99038b57e0d2051084e3eb85428815f68
 Текущий HEAD: проверяется при чтении
-Активная версия General: 5.0.0 — released; candidate General 5.0.1
-Bootstrap и Cloud Adapter: 1.2.2 — integrated, released, published; candidate 1.2.3
-Ревизия снимка: 15
+Активная версия General: 5.0.1 — released; General 5.0.0 — archived
+Bootstrap и Cloud Adapter: 1.2.3 — integrated, released; publication pending
+Ревизия снимка: 16
 
 ## Цель
 
@@ -19,7 +19,7 @@ Bootstrap и Cloud Adapter: 1.2.2 — integrated, released, published; candidate
 - Входит: General 5.0.1 с уведомлением о ручном удалении source-ветки после merge; совместимые Bootstrap/Cloud Adapter 1.2.3; безопасный release/publish-контур.
 - Не входит: автоматическое удаление Git-веток; остальные findings; пересмотр `KNOWN-FEATURES.md`; экспериментальные среды.
 - Ограничение: General 5.0.0, тег `v5.0.0` и прежние публичные snapshots неизменны.
-- Критерий готовности: candidate синхронизирован и проверен; после отдельных PO-gate смержен, выпущен тегом `v5.0.1`, опубликован и затем активирован.
+- Критерий готовности: release-коммит синхронизирован; тег `v5.0.1` создан на нём; commit интегрирован в `main`; GitHub Release и публичный snapshot подтверждены; затем отдельно проверена активация.
 
 ## Ключевые решения PO
 
@@ -32,6 +32,7 @@ Bootstrap и Cloud Adapter: 1.2.2 — integrated, released, published; candidate
 - 2026-09-07 — PO поручил постмерджево обновить только PROJECT-STATE.md; merge этого обновления отдельно не разрешён.
 - 2026-09-07 — PO решил не автоматизировать удаление веток: после merge оркестратор сообщает о необходимости ручного удаления и даёт прямую ссылку на source-ветку.
 - 2026-09-07 — изменение выпускается как General 5.0.1; после его релиза General 5.0.0 становится архивным.
+- 2026-09-08 — PO разрешил squash-merge PR #7 и подготовку release-коммита General 5.0.1.
 
 ## Завершено
 
@@ -40,21 +41,21 @@ Bootstrap и Cloud Adapter: 1.2.2 — integrated, released, published; candidate
 - PR #5 смержен методом squash; commit `bd6a5384b4d8f1f7f93df89e0b13a1366ee84a33`.
 - Bootstrap/Cloud Adapter 1.2.2 опубликованы snapshot `v5.0.0-bootstrap-1.2.2-cloud-1.2.2`; verifier, публикация и Pages deploy успешны.
 - Версия 1.2.2 унифицирует lifecycle, разделяет ревизии состояния, добавляет tag-gate, troubleshooting и компактную навигацию.
+- PR #7 смержен методом squash; candidate General 5.0.1 и совместимые Bootstrap/Cloud Adapter 1.2.3 интегрированы в `main@a37a49d99038b57e0d2051084e3eb85428815f68`.
 
 ## Текущее состояние
 
-Версия 1.2.2 интегрирована, выпущена и опубликована, но не активирована в пользовательских окружениях. General 5.0.0 и принятые особенности не изменялись.
-
-Подготовлен candidate General 5.0.1 с совместимыми Bootstrap/Cloud Adapter 1.2.3. Публикация candidate при merge отключается; публичный контур обновляется только после выпуска точного тега.
+Release-коммит переводит General 5.0.1 и совместимые Bootstrap/Cloud Adapter 1.2.3 в released. General 5.0.0 становится архивным; его тег и snapshot остаются неизменными. Публикация 5.0.1 ещё не выполнена.
 
 ## Открытые вопросы
 
-- Пройдёт ли candidate General 5.0.1 проверку и получит ли отдельное разрешение PO на merge?
-- Будет ли после merge отдельно разрешён выпуск `v5.0.1` и публикация нового snapshot?
+- Будет ли тег `v5.0.1` создан на точном release-коммите?
+- Получит ли release-коммит отдельное разрешение PO на merge после зелёной tag-gate проверки?
+- Будут ли GitHub Release и публикация нового snapshot отдельно разрешены и подтверждены?
 
 ## Следующий шаг
 
-Проверить candidate General 5.0.1 и совместимые артефакты в отдельном PR; затем запросить решение PO о merge.
+Создать тег `v5.0.1` на подготовленном release-коммите, проверить tag-gate и только затем открыть/смержить release PR отдельным решением PO.
 
 ## Контекст следующего шага
 
@@ -78,7 +79,7 @@ Bootstrap и Cloud Adapter: 1.2.2 — integrated, released, published; candidate
 
 ## Риски и расхождения
 
-- General 5.0.1 и Bootstrap/Cloud Adapter 1.2.3 пока только candidate.
+- General 5.0.1 и Bootstrap/Cloud Adapter 1.2.3 ещё не опубликованы и не активированы.
 - GitHub-коннектор текущей среды не умеет удалять branch refs; ручное удаление остаётся действием PO.
 - PROJECT-INSTRUCTIONS занимает 7895 из 8000 символов; дальнейшие изменения требуют сокращения или новой границы.
 
