@@ -1,6 +1,6 @@
 # Активация General 5 в поддерживаемых средах
 
-Версии документа: General 5.0.1, Activation Bootstrap 1.2.3 и Claude Code Cloud Adapter 1.2.3. Статус: candidate; lifecycle-статусы указаны в `PROJECT-STATE.md`; экспериментальные среды не входят.
+Версии документа: General 5.0.1, Activation Bootstrap 1.2.3 и Claude Code Cloud Adapter 1.2.3. Статус: released; публикация и активация фиксируются отдельно в `PROJECT-STATE.md`; экспериментальные среды не входят.
 
 ## Общий контракт
 
