@@ -3,12 +3,12 @@
 Снимок состояния: 2026-09-08
 Репозиторий: Alexio00/Orchestration
 Ветка: main
-Ревизия артефактов: 8975a69ed7603d9fb70eeb65559ee3fd23ba980c
-База снимка: 90c50131bccb46260ba91175eb234f4f4bee6de6
+Ревизия артефактов: 5619fb15a03b8b92f208d6f6aea9745e48b9ddc1
+База снимка: 21a77d95ed656475d70b38ce59d4063399ab42b9
 Текущий HEAD: проверяется при чтении
-Активная версия General: 5.0.1 — released, published, activated; 5.0.2 — candidate remediation; 5.0.0 — archived
-Bootstrap и Cloud Adapter: 1.2.4 — released, published, activated; 1.2.5 — candidate remediation; 1.2.3 — ошибочный snapshot непригоден
-Ревизия снимка: 19
+Активная версия General: 5.0.2 — released, publication pending; 5.0.1 и 5.0.0 — archived
+Bootstrap и Cloud Adapter: 1.2.5 — released, publication pending; 1.2.4 — archived, activated; 1.2.3 — ошибочный snapshot непригоден
+Ревизия снимка: 20
 
 ## Цель
 
@@ -17,9 +17,9 @@ Bootstrap и Cloud Adapter: 1.2.4 — released, published, activated; 1.2.5 — 
 ## Границы текущего этапа
 
 - Входит: General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5, закрывающие три Major и два оставшихся Minor независимого аудита.
-- Не входит: автоматическое удаление Git-веток; пересмотр `KNOWN-FEATURES.md`; экспериментальные среды; merge, tag, Release, публикация и активация candidate.
+- Не входит: автоматическое удаление Git-веток; пересмотр `KNOWN-FEATURES.md`; экспериментальные среды; живая активация нового выпуска.
 - Ограничение: General 5.0.0, тег `v5.0.0` и прежние публичные snapshots неизменны.
-- Критерий готовности: все пять findings закрыты кодом и regression-проверками; candidate проходит CI и новый независимый read-only review exact subject.
+- Критерий готовности: release-коммит проверен с точным локальным тегом; после merge тег `v5.0.2`, GitHub Release и публичный snapshot подтверждены; живая активация проверяется отдельно.
 
 ## Ключевые решения PO
 
@@ -38,6 +38,7 @@ Bootstrap и Cloud Adapter: 1.2.4 — released, published, activated; 1.2.5 — 
 - 2026-09-08 — PO подтвердил успешный тест опубликованных General 5.0.1 и Bootstrap 1.2.4 без заявленных расхождений.
 - 2026-09-08 — PO поручил запустить независимые аудиты логики и промптов; аудит read-only и не включает автоматическое исправление findings.
 - 2026-09-08 — PO поручил подготовить General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5, закрыв три Major и два оставшихся Minor.
+- 2026-09-08 — независимый exact-subject review подтвердил закрытие всех пяти findings; PO разрешил merge PR #11, затем поручил выполнить release.
 
 ## Завершено
 
@@ -54,25 +55,26 @@ Bootstrap и Cloud Adapter: 1.2.4 — released, published, activated; 1.2.5 — 
 - PO подтвердил успешный тест General 5.0.1 / Bootstrap 1.2.4 после публикации.
 - Независимые аудиты exact subject `04cbc37762b3567358c357d86b4e9097c695e292` завершены: критических findings нет; подтверждены три Major и три Minor, один Minor freshness закрыт state-only PR #10.
 - PR #10 смержен как state-only commit `90c50131bccb46260ba91175eb234f4f4bee6de6`; post-merge CI успешен.
+- PR #11 смержен методом squash как `21a77d95ed656475d70b38ce59d4063399ab42b9`; все три Major и два Minor интегрированы, проверки успешны.
 
 ## Текущее состояние
 
-General 5.0.1 и Bootstrap/Cloud Adapter 1.2.4 остаются активным выпуском. Candidate 5.0.2/1.2.5 подготовлен: добавлены отдельный merge-gate, безопасная классификация source-ветки, fail-closed публикация только из `main` со released-статусами всех компонентов, единственность managed-маркеров и согласованный candidate-status документации.
+Release-коммит переводит General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5 в `released`. Публикация и активация ещё не подтверждены. General 5.0.1 и прежние версии остаются неизменяемой историей.
 
 ## Открытые вопросы
 
-- Подтвердит ли независимый reviewer закрытие всех пяти findings на exact candidate subject?
-- После verified candidate требуется отдельное решение PO на merge; release/tag/publication/activation остаются последующими отдельными gates.
+- Будет ли release-коммит интегрирован без изменения exact subject?
+- Будут ли тег `v5.0.2`, GitHub Release и публичный snapshot подтверждены на точном release-коммите?
 
 ## Следующий шаг
 
-Провести независимый read-only review candidate General 5.0.2 / Bootstrap/Cloud Adapter 1.2.5 на exact subject после сохранения draft PR.
+Создать release PR, проверить exact subject и CI, смержить по решению PO, затем создать `v5.0.2` и подтвердить публикацию.
 
 ## Контекст следующего шага
 
-- Candidate artifacts revision: `8975a69ed7603d9fb70eeb65559ee3fd23ba980c`; state-only commit после него drift артефактов не создаёт.
-- Проверить `GENERAL-5.md`, lifecycle-статусы компонентов, `.github/workflows/publish-pages.yml`, `scripts/publish-pages.sh`, `scripts/verify-artifacts.sh` и regression-тесты.
-- Проверить синхронность `AGENTS.md`, `PROJECT-INSTRUCTIONS.md`, setup payload и `ACTIVATION.md`; лимит Project Instructions — не более 8000 символов.
+- Release artifacts revision: `5619fb15a03b8b92f208d6f6aea9745e48b9ddc1`; state-only commit после неё drift артефактов не создаёт.
+- Тег `v5.0.2` должен указывать на точный интегрированный release-коммит, содержащий released-статусы всех трёх компонентов.
+- После GitHub Release проверить workflow, Pages deploy, manifest и snapshot `v5.0.2-bootstrap-1.2.5-cloud-1.2.5`.
 - `KNOWN-FEATURES.md` — принятые PO особенности, не дефекты без нового воспроизводимого основания.
 
 ## Справочный контекст
@@ -84,16 +86,16 @@ General 5.0.1 и Bootstrap/Cloud Adapter 1.2.4 остаются активным
 
 ## Внешние изменяемые факты
 
-- `main=90c50131bccb46260ba91175eb234f4f4bee6de6`; источник: GitHub branches API; `checked_at=2026-09-08`; повторять перед записью или аудитом нового subject.
+- `main=21a77d95ed656475d70b38ce59d4063399ab42b9`; источник: GitHub commits API; `checked_at=2026-09-08`; повторять перед merge release PR и созданием тега.
 - Snapshot `v5.0.1-bootstrap-1.2.3-cloud-1.2.3` содержит candidate source revision `a37a49d99038b57e0d2051084e3eb85428815f68`; источник: публичный manifest Orchestration Pages; `checked_at=2026-09-08`; повторять при изменении manifest или политики snapshots.
 - Snapshot `v5.0.1-bootstrap-1.2.4-cloud-1.2.4` содержит source revision `04cbc37762b3567358c357d86b4e9097c695e292`, `publishedAt=2026-09-08T07:50:56Z`; источник: публичный manifest Orchestration Pages; `checked_at=2026-09-08`; повторять перед новым release или использованием публичного пакета как exact evidence.
 - Live activation General 5.0.1 / Bootstrap 1.2.4 подтверждён PO; источник: сообщение PO 2026-09-08; `checked_at=2026-09-08`; повторять после изменения General, Bootstrap/Adapter или способа активации.
 
 ## Риски и расхождения
 
-- Candidate ещё не прошёл независимый exact-subject review и не должен считаться verified, integrated, released, published или activated.
+- General 5.0.2 и Bootstrap/Cloud Adapter 1.2.5 ещё не опубликованы и не активированы.
 - GitHub-коннектор текущей среды не умеет удалять branch refs; ручное удаление остаётся действием PO.
-- Candidate PROJECT-INSTRUCTIONS занимает 7954 из 8000 символов; запас мал, дальнейшие изменения требуют сокращения или новой границы.
+- PROJECT-INSTRUCTIONS занимает 7952 из 8000 символов; запас мал, дальнейшие изменения требуют сокращения или новой границы.
 
 ## Свежесть снимка
 
