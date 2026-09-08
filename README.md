@@ -4,7 +4,7 @@
 
 ## Статус
 
-**Актуальный выпуск: General 5.0.1; General 5.0.2 — candidate remediation. General 5.0.0 — архивный.** Статусы Bootstrap, адаптеров, публикации и активации указаны в [PROJECT-STATE.md](PROJECT-STATE.md).
+**Актуальный выпуск: General 5.0.2. General 5.0.1 и 5.0.0 — архивные.** Статусы Bootstrap, адаптеров, публикации и активации указаны в [PROJECT-STATE.md](PROJECT-STATE.md).
 
 Установка текста создаёт постоянную точку входа, но сама по себе не доказывает активацию. Статус `activated` присваивается только после новой сессии, фактической загрузки инструкций и наблюдаемой квитанции.
 
@@ -20,7 +20,7 @@ General 5 предназначен для проектной работы, в к
 
 ## Навигация
 
-- [GENERAL-5.md](GENERAL-5.md) — candidate General 5.0.2; выпущенный General 5.0.1 закреплён тегом.
+- [GENERAL-5.md](GENERAL-5.md) — неизменяемое ядро актуального General 5.0.2.
 - [ACTIVATION.md](ACTIVATION.md) — матрица сред, установка, проверка и troubleshooting.
 - [ACTIVATION-BOOTSTRAP.md](ACTIVATION-BOOTSTRAP.md) — канонический preflight и контракт файлов.
 - [PROJECT-STATE.md](PROJECT-STATE.md) — актуальное состояние и следующий шаг.
@@ -28,7 +28,8 @@ General 5 предназначен для проектной работы, в к
 - [KNOWN-FEATURES.md](KNOWN-FEATURES.md) — принятые PO особенности.
 - [DEVELOPMENT-PLAN.md](DEVELOPMENT-PLAN.md) — исторический план; актуальный шаг находится только в PROJECT-STATE.
 - [Публичная страница активации](https://alexio00.github.io/Orchestration-pages/) — копируемые инструкции для поддерживаемых сред.
-- [Релиз General 5.0.1](https://github.com/Alexio00/Orchestration/releases/tag/v5.0.1) — актуальный выпуск.
+- [Релиз General 5.0.2](https://github.com/Alexio00/Orchestration/releases/tag/v5.0.2) — актуальный выпуск.
+- [Релиз General 5.0.1](https://github.com/Alexio00/Orchestration/releases/tag/v5.0.1) — архивный выпуск.
 - [Релиз General 5.0.0](https://github.com/Alexio00/Orchestration/releases/tag/v5.0.0) — архивный выпуск.
 
 ## Жизненный цикл
