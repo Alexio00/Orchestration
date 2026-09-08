@@ -8,6 +8,7 @@ trap 'rm -rf "$tmp_dir"' EXIT
 
 general_file="$repo_root/GENERAL-5.md"
 delegation_file="$repo_root/OPS-DELEGATION.md"
+state_file="$repo_root/PROJECT-STATE.md"
 bootstrap_file="$repo_root/ACTIVATION-BOOTSTRAP.md"
 git_file="$repo_root/ACTIVATION-GIT.md"
 project_file="$repo_root/PROJECT-INSTRUCTIONS.md"
@@ -69,6 +70,12 @@ fi
 agents_characters="$(wc -m < "$agents_file")"
 if (( agents_characters > 4500 )); then
   printf 'AGENTS.md exceeds the 4500 character budget: %s.\n' "$agents_characters" >&2
+  exit 1
+fi
+
+state_characters="$(wc -m < "$state_file")"
+if (( state_characters > 5500 )); then
+  printf 'PROJECT-STATE.md exceeds the 5500 character budget: %s. Снимок не журнал — сократи закрытое.\n' "$state_characters" >&2
   exit 1
 fi
 
