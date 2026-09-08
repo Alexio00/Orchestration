@@ -3,8 +3,8 @@ set -euo pipefail
 
 # Claude Code cloud environment setup for:
 # - General 5.0.1
-# - Activation Bootstrap 1.2.3
-# - Claude Code Cloud Adapter 1.2.3
+# - Activation Bootstrap 1.2.4
+# - Claude Code Cloud Adapter 1.2.4
 #
 # Paste this complete file into the environment's Setup script field.
 # It places the full adapter directly in Claude Code's managed CLAUDE.md.
@@ -13,7 +13,7 @@ set -euo pipefail
 setup_root="${GENERAL5_SETUP_ROOT:-}"
 policy_dir="$setup_root/etc/claude-code"
 policy_file="$policy_dir/CLAUDE.md"
-adapter_version='1.2.3'
+adapter_version='1.2.4'
 begin_marker="<!-- GENERAL-5-CLOUD-ADAPTER:BEGIN version=$adapter_version -->"
 end_marker='<!-- GENERAL-5-CLOUD-ADAPTER:END -->'
 
@@ -71,7 +71,7 @@ printf '%s\n' "$begin_marker" >> "$tmp_policy"
 cat >> "$tmp_policy" <<'GENERAL5_PROJECT_INSTRUCTIONS'
 # General 5 — Project Adapter
 
-General 5.0.1 + Activation Bootstrap 1.2.3.
+General 5.0.1 + Activation Bootstrap 1.2.4.
 
 ## Ядро General 5.0.1
 
@@ -104,7 +104,7 @@ General 5.0.1 + Activation Bootstrap 1.2.3.
 
 ## Автоматическая активация
 
-# Activation Bootstrap 1.2.3
+# Activation Bootstrap 1.2.4
 
 ## Полномочия
 
@@ -120,7 +120,7 @@ Read-only/Plan и более узкие полномочия приоритет�
 
 1. Определи полномочия, repo, ветки, base, HEAD и working/staged diff. Неоднозначная base блокирует запись.
 2. До записи получи все open PR репозитория в точную base, без фильтра head. Подтверди полную пагинацию списка PR и полного changed-files каждого PR; если API сообщает `changed_files`, число полученных уникальных путей должно совпасть. Нет доступа или любая полнота не доказана — останови запись.
-3. Кандидат — непустой PR в точную base, где: body содержит ровно один `GENERAL-5-ACTIVATION` с фактическими repository/base и версиями; полный changed-files ограничен `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md`; в head-tree `CLAUDE.md` содержит одну строку `@AGENTS.md` вне кода, а `AGENTS.md` — согласованные `GENERAL-5:BEGIN version=5.0.1 bootstrap=1.2.3` и `GENERAL-5:END`. Проверяй head-tree, не patch. Несовпадающий/повторный marker, удаление активации или иной путь — конфликт. `0` кандидатов → создай; `1` → переиспользуй; `>1`/конфликт → решение PO.
+3. Кандидат — непустой PR в точную base, где: body содержит ровно один `GENERAL-5-ACTIVATION` с фактическими repository/base и версиями; полный changed-files ограничен `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md`; в head-tree `CLAUDE.md` содержит одну строку `@AGENTS.md` вне кода, а `AGENTS.md` — согласованные `GENERAL-5:BEGIN version=5.0.1 bootstrap=1.2.4` и `GENERAL-5:END`. Проверяй head-tree, не patch. Несовпадающий/повторный marker, удаление активации или иной путь — конфликт. `0` кандидатов → создай; `1` → переиспользуй; `>1`/конфликт → решение PO.
 4. Проверь файлы. При разрешённой записи создай недостающее; в read-only сообщи. Конфликт или чужие правки блокируют запись.
 5. Прочитай состояние; проверь локальную свежесть и отдельно используемые внешние факты. Загрузи только «Контекст следующего шага» и нужные задаче источники. Проверь diff и сохрани.
 6. Один раз выдай краткую квитанцию: версии, repo/branch/HEAD, свежесть, цель, шаг, расхождения. Расширенную — по запросу. После подключения отчитайся и остановись; иную явную задачу продолжай.
@@ -138,10 +138,10 @@ Read-only/Plan и более узкие полномочия приоритет�
 Создай или обнови один однозначный блок, сохранив остальное:
 
 ```markdown
-<!-- GENERAL-5:BEGIN version=5.0.1 bootstrap=1.2.3 -->
+<!-- GENERAL-5:BEGIN version=5.0.1 bootstrap=1.2.4 -->
 # General 5 — repository activation
 Статус: активный репозиторный дистрибутив General 5.0.1.
-Activation Bootstrap: 1.2.3.
+Activation Bootstrap: 1.2.4.
 
 ## Протокол активации
 Перед работой новой/переданной сессии:
@@ -199,7 +199,7 @@ Activation Bootstrap: 1.2.3.
 3. Без изменений — без commit/PR. Перед продолжением проверь происхождение изменений.
 4. Ветка допустима, только если весь diff к base относится к активации. Без force push; нельзя изолировать своё — остановка.
 5. Добавляй только свои точные пути; не используй `git add .`/`git add -A`. Проверь staged и branch diff.
-6. Commit/push и draft PR либо обновление кандидата. Новый PR пометь в body ровно один раз: `<!-- GENERAL-5-ACTIVATION repository=owner/repository base=branch general=5.0.1 bootstrap=1.2.3 -->`, подставив фактические repository/base. Проверь commit, head/base, полный PR diff и итоговые файлы head-tree; отказ — фактический этап и остановка.
+6. Commit/push и draft PR либо обновление кандидата. Новый PR пометь в body ровно один раз: `<!-- GENERAL-5-ACTIVATION repository=owner/repository base=branch general=5.0.1 bootstrap=1.2.4 -->`, подставив фактические repository/base. Проверь commit, head/base, полный PR diff и итоговые файлы head-tree; отказ — фактический этап и остановка.
 7. После PR остановись: без merge и автоматического monitoring.
 
 ## Результат
@@ -217,4 +217,4 @@ chmod 0644 "$tmp_policy"
 mv "$tmp_policy" "$policy_file"
 trap - EXIT
 
-printf 'Installed General 5.0.1 with Activation Bootstrap 1.2.3 and Claude Code Cloud Adapter 1.2.3.\n'
+printf 'Installed General 5.0.1 with Activation Bootstrap 1.2.4 and Claude Code Cloud Adapter 1.2.4.\n'
