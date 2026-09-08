@@ -70,8 +70,8 @@ awk '
 diff -u "$project_file" "$tmp_dir/setup-payload.md"
 
 grep -Fxq "<!-- GENERAL-5:BEGIN version=$general_version bootstrap=$bootstrap_version -->" "$agents_file"
-[[ "$(grep -c '^<!-- GENERAL-5:BEGIN ' "$agents_file" || true)" == 1 ]]
-[[ "$(grep -cFx '<!-- GENERAL-5:END -->' "$agents_file" || true)" == 1 ]]
+[[ "$(grep -cF 'GENERAL-5:BEGIN' "$agents_file" || true)" == 1 ]]
+[[ "$(grep -cF 'GENERAL-5:END' "$agents_file" || true)" == 1 ]]
 grep -Fxq "Activation Bootstrap: $bootstrap_version." "$agents_file"
 grep -Fxq "# - Activation Bootstrap $bootstrap_version" "$setup_file"
 grep -Fxq "# - Claude Code Cloud Adapter $adapter_version" "$setup_file"

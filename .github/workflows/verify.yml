@@ -25,3 +25,6 @@ jobs:
 
       - name: Test publication lifecycle gates
         run: bash scripts/test-publication-gates.sh
+
+      - name: Test ambiguous marker rejection
+        run: bash scripts/test-verifier-markers.sh
