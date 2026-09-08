@@ -15,11 +15,21 @@ setup_file="$repo_root/CLAUDE-CODE-SETUP.sh"
 general_version="$(sed -n 's/^Статус: .*General \([0-9][0-9.]*\).*/\1/p' "$general_file" | head -n 1)"
 bootstrap_version="$(sed -n 's/^# Activation Bootstrap \([0-9][0-9.]*\)$/\1/p' "$bootstrap_file" | head -n 1)"
 adapter_version="$(sed -n 's/^# - Claude Code Cloud Adapter \([0-9][0-9.]*\)$/\1/p' "$setup_file" | head -n 1)"
+general_status="$(sed -n 's/^Статус: \*\*\(candidate\|выпущено\) — General .*$/\1/p' "$general_file" | head -n 1)"
+bootstrap_status="$(sed -n 's/^Статус: \*\*\(candidate\|выпущено\) — Activation Bootstrap .*$/\1/p' "$bootstrap_file" | head -n 1)"
+adapter_status="$(sed -n 's/^# Статус: \(candidate\|выпущено\) — Claude Code Cloud Adapter .*$/\1/p' "$setup_file" | head -n 1)"
 
 if [[ -z "$general_version" || -z "$bootstrap_version" || -z "$adapter_version" ]]; then
   printf 'Could not determine component versions.\n' >&2
   exit 1
 fi
+if [[ -z "$general_status" || "$general_status" != "$bootstrap_status" || "$general_status" != "$adapter_status" ]]; then
+  printf 'Component lifecycle statuses are missing or inconsistent.\n' >&2
+  exit 1
+fi
+activation_status='candidate'
+[[ "$general_status" == 'выпущено' ]] && activation_status='released'
+grep -Fq "Статус: $activation_status;" "$repo_root/ACTIVATION.md"
 
 if grep -Fq 'Статус: **выпущено — General ' "$general_file"; then
   general_tag="v$general_version"
@@ -60,6 +70,8 @@ awk '
 diff -u "$project_file" "$tmp_dir/setup-payload.md"
 
 grep -Fxq "<!-- GENERAL-5:BEGIN version=$general_version bootstrap=$bootstrap_version -->" "$agents_file"
+[[ "$(grep -cF 'GENERAL-5:BEGIN' "$agents_file" || true)" == 1 ]]
+[[ "$(grep -cF 'GENERAL-5:END' "$agents_file" || true)" == 1 ]]
 grep -Fxq "Activation Bootstrap: $bootstrap_version." "$agents_file"
 grep -Fxq "# - Activation Bootstrap $bootstrap_version" "$setup_file"
 grep -Fxq "# - Claude Code Cloud Adapter $adapter_version" "$setup_file"
@@ -70,8 +82,12 @@ bash -n "$setup_file"
 bash -n "$script_dir/build-project-instructions.sh"
 bash -n "$script_dir/sync-setup-payload.sh"
 bash -n "$script_dir/publish-pages.sh"
+grep -Fq "ref: \${{ github.event_name == 'workflow_dispatch' && 'main' || github.event.release.tag_name }}" "$repo_root/.github/workflows/publish-pages.yml"
+grep -Fq "if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'" "$repo_root/.github/workflows/publish-pages.yml"
 grep -Fq 'expected_release_status="Статус: **выпущено — General $general_version**"' "$script_dir/publish-pages.sh"
 grep -Fq 'grep -Fxq "$expected_release_status" "$general_file"' "$script_dir/publish-pages.sh"
+grep -Fq 'grep -Fxq "$expected_bootstrap_status" "$bootstrap_file"' "$script_dir/publish-pages.sh"
+grep -Fq 'grep -Fxq "$expected_adapter_status" "$setup_file"' "$script_dir/publish-pages.sh"
 
 printf 'Verified General %s, Bootstrap %s and Cloud Adapter %s artifacts.\n' \
   "$general_version" "$bootstrap_version" "$adapter_version"

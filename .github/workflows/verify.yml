@@ -22,3 +22,9 @@ jobs:
 
       - name: Test Claude Code setup safety
         run: bash scripts/test-claude-code-setup.sh
+
+      - name: Test publication lifecycle gates
+        run: bash scripts/test-publication-gates.sh
+
+      - name: Test ambiguous marker rejection
+        run: bash scripts/test-verifier-markers.sh
