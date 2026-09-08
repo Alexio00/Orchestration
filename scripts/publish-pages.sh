@@ -3,7 +3,7 @@ set -euo pipefail
 
 source_root="${1:?source repository root is required}"
 target_root="${2:?pages repository root is required}"
-release_tag="${3:-v5.0.0}"
+release_tag="${3:-v5.0.1}"
 source_revision="${4:-unknown}"
 
 general_file="$source_root/GENERAL-5.md"
@@ -26,11 +26,30 @@ if [[ -z "$general_version" || -z "$bootstrap_version" || -z "$adapter_version" 
   exit 1
 fi
 
+if [[ ! "$release_tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+  printf 'Invalid General release tag: %s\n' "$release_tag" >&2
+  exit 1
+fi
+if [[ "$release_tag" != "v$general_version" ]]; then
+  printf 'General release tag %s does not match General %s.\n' "$release_tag" "$general_version" >&2
+  exit 1
+fi
 snapshot_id="$release_tag-bootstrap-$bootstrap_version-cloud-$adapter_version"
 version_dir="$target_root/content/releases/$snapshot_id"
 latest_dir="$target_root/content/latest"
 snapshot_tmp="$(mktemp -d)"
 trap 'rm -rf "$snapshot_tmp"' EXIT
+
+if ! git -C "$source_root" rev-parse --verify "refs/tags/$release_tag^{commit}" >/dev/null 2>&1; then
+  printf 'General release tag is missing: %s.\n' "$release_tag" >&2
+  exit 1
+fi
+git -C "$source_root" show "$release_tag:GENERAL-5.md" > "$snapshot_tmp/tagged-general.md"
+if ! diff -u "$snapshot_tmp/tagged-general.md" "$general_file"; then
+  printf 'GENERAL-5.md differs from release tag %s.\n' "$release_tag" >&2
+  exit 1
+fi
+rm -f "$snapshot_tmp/tagged-general.md"
 
 cp "$general_file" "$snapshot_tmp/general.md"
 cp "$project_file" "$snapshot_tmp/project-instructions.md"

@@ -1,20 +1,6 @@
 name: Publish activation pages
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - GENERAL-5.md
-      - PROJECT-INSTRUCTIONS.md
-      - CLAUDE-CODE-SETUP.sh
-      - ACTIVATION-BOOTSTRAP.md
-      - AGENTS.md
-      - scripts/build-project-instructions.sh
-      - scripts/sync-setup-payload.sh
-      - scripts/verify-artifacts.sh
-      - scripts/test-claude-code-setup.sh
-      - scripts/publish-pages.sh
-      - .github/workflows/publish-pages.yml
   release:
     types: [published]
   workflow_dispatch:
@@ -22,7 +8,7 @@ on:
       release_tag:
         description: Stable General release tag
         required: false
-        default: v5.0.0
+        default: v5.0.1
 
 permissions:
   contents: read
@@ -63,11 +49,14 @@ jobs:
         if: steps.auth.outputs.configured == 'true'
         id: version
         shell: bash
+        env:
+          RELEASE_EVENT_TAG: ${{ github.event.release.tag_name }}
+          MANUAL_RELEASE_TAG: ${{ inputs.release_tag }}
         run: |
           if [[ "${{ github.event_name }}" == "release" ]]; then
-            tag="${{ github.event.release.tag_name }}"
-          elif [[ -n "${{ inputs.release_tag }}" ]]; then
-            tag="${{ inputs.release_tag }}"
+            tag="$RELEASE_EVENT_TAG"
+          elif [[ -n "$MANUAL_RELEASE_TAG" ]]; then
+            tag="$MANUAL_RELEASE_TAG"
           else
             tag="$(git describe --tags --abbrev=0 --match 'v[0-9]*' HEAD)"
           fi
