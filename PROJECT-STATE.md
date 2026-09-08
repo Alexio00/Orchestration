@@ -3,7 +3,7 @@
 Снимок состояния: 2026-09-08
 Репозиторий: Alexio00/Orchestration
 Ветка: main
-Ревизия артефактов: 41469498c97d91ffdee9f6dc7c7a960dd643e910
+Ревизия артефактов: 8975a69ed7603d9fb70eeb65559ee3fd23ba980c
 База снимка: 90c50131bccb46260ba91175eb234f4f4bee6de6
 Текущий HEAD: проверяется при чтении
 Активная версия General: 5.0.1 — released, published, activated; 5.0.2 — candidate remediation; 5.0.0 — archived
@@ -70,7 +70,7 @@ General 5.0.1 и Bootstrap/Cloud Adapter 1.2.4 остаются активным
 
 ## Контекст следующего шага
 
-- Candidate artifacts revision: `41469498c97d91ffdee9f6dc7c7a960dd643e910`; state-only commit после него drift артефактов не создаёт.
+- Candidate artifacts revision: `8975a69ed7603d9fb70eeb65559ee3fd23ba980c`; state-only commit после него drift артефактов не создаёт.
 - Проверить `GENERAL-5.md`, lifecycle-статусы компонентов, `.github/workflows/publish-pages.yml`, `scripts/publish-pages.sh`, `scripts/verify-artifacts.sh` и regression-тесты.
 - Проверить синхронность `AGENTS.md`, `PROJECT-INSTRUCTIONS.md`, setup payload и `ACTIVATION.md`; лимит Project Instructions — не более 8000 символов.
 - `KNOWN-FEATURES.md` — принятые PO особенности, не дефекты без нового воспроизводимого основания.
