@@ -3,14 +3,15 @@ set -euo pipefail
 
 source_root="${1:?source repository root is required}"
 target_root="${2:?pages repository root is required}"
-release_tag="${3:-v5.0.1}"
+release_tag="${3:-v5.0.2}"
 source_revision="${4:-unknown}"
 
 general_file="$source_root/GENERAL-5.md"
+bootstrap_file="$source_root/ACTIVATION-BOOTSTRAP.md"
 project_file="$source_root/PROJECT-INSTRUCTIONS.md"
 setup_file="$source_root/CLAUDE-CODE-SETUP.sh"
 
-for required in "$general_file" "$project_file" "$setup_file"; do
+for required in "$general_file" "$bootstrap_file" "$project_file" "$setup_file"; do
   if [[ ! -f "$required" ]]; then
     printf 'Required public artifact is missing: %s\n' "$required" >&2
     exit 1
@@ -29,6 +30,17 @@ fi
 expected_release_status="Статус: **выпущено — General $general_version**"
 if ! grep -Fxq "$expected_release_status" "$general_file"; then
   printf 'Refusing to publish General %s without released status.\n' "$general_version" >&2
+  exit 1
+fi
+
+expected_bootstrap_status="Статус: **выпущено — Activation Bootstrap $bootstrap_version**"
+if ! grep -Fxq "$expected_bootstrap_status" "$bootstrap_file"; then
+  printf 'Refusing to publish Activation Bootstrap %s without released status.\n' "$bootstrap_version" >&2
+  exit 1
+fi
+expected_adapter_status="# Статус: выпущено — Claude Code Cloud Adapter $adapter_version"
+if ! grep -Fxq "$expected_adapter_status" "$setup_file"; then
+  printf 'Refusing to publish Claude Code Cloud Adapter %s without released status.\n' "$adapter_version" >&2
   exit 1
 fi
 
