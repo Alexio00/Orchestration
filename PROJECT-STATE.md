@@ -1,3 +1,4 @@
+# Project State — General 5
 
 Снимок состояния: 2026-09-08
 Репозиторий: Alexio00/Orchestration
@@ -98,4 +99,3 @@ Bootstrap и Cloud Adapter: 1.2.3 — released, ошибочный snapshot не
 ## Правило обновления
 
 Обновляй файл только при значимом checkpoint.
-
