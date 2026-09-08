@@ -28,3 +28,6 @@ jobs:
 
       - name: Test ambiguous marker rejection
         run: bash scripts/test-verifier-markers.sh
+
+      - name: Validate behavioral eval contract
+        run: python3 scripts/validate-evals.py

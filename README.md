@@ -27,6 +27,7 @@ General 5 предназначен для проектной работы, в к
 - [PROJECT-STATE.md](PROJECT-STATE.md) — актуальное состояние и следующий шаг.
 - [PROJECT-STATE.template.md](PROJECT-STATE.template.md) — схема нового снимка.
 - [OPS-DELEGATION.md](OPS-DELEGATION.md) — механика делегирования; справочное приложение вне контекста старта.
+- [evals/general-behavioral-scenarios-v2.json](evals/general-behavioral-scenarios-v2.json) — поведенческие сценарии и условия прогона; спецификация не является доказательством выполнения.
 - [KNOWN-FEATURES.md](KNOWN-FEATURES.md) — принятые PO особенности.
 - [DEVELOPMENT-PLAN.md](DEVELOPMENT-PLAN.md) — исторический план; актуальный шаг находится только в PROJECT-STATE.
 - [Публичная страница активации](https://alexio00.github.io/Orchestration-pages/) — копируемые инструкции для поддерживаемых сред.
