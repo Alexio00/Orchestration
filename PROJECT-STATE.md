@@ -4,11 +4,11 @@
 Репозиторий: Alexio00/Orchestration
 Ветка: feature/general-5-1-execution-observability
 Ревизия артефактов: 5ed654331a40d10d57bd31c41789619ae1dbda13
-База снимка: 5ed654331a40d10d57bd31c41789619ae1dbda13
+База снимка: fa7519d1e59e24b94809c123a69e5e74e3c5a932
 Текущий HEAD: проверяется при чтении
 Активная версия General: 5.0.3 — released/published/activated; кандидат 5.1.0 — draft
 Bootstrap, Activation Git и Cloud Adapter 1.3.0 — активны; 1.3.1 — candidate
-Ревизия снимка: 28
+Ревизия снимка: 29
 
 ## Цель
 
@@ -36,19 +36,20 @@ Bootstrap, Activation Git и Cloud Adapter 1.3.0 — активны; 1.3.1 — c
 - General 5.0.3 / компоненты 1.3.0 ранее выпущены, опубликованы и активированы; `v5.0.3` неизменен.
 - Кандидат 5.1.0 / компоненты 1.3.1 создан в отдельной ветке. Канонические и производные инструкции синхронизированы; лимиты и Git diff проверены.
 - Артефакты: `5ed654331a40d10d57bd31c41789619ae1dbda13`.
+- CI на `fa7519d1e59e24b94809c123a69e5e74e3c5a932` прошёл: verifier, Claude Code setup safety, publication gates, marker rejection; источник: GitHub Actions run `37765315931`.
 
 ## Текущее состояние
 
-Ветка `feature/general-5-1-execution-observability` от `main=78c20268c`; кандидат 5.1.0/1.3.1 не смержен и не выпущен. Действующая активация 5.0.3/1.3.0. CI и независимый аудит ожидают проверки.
+Ветка `feature/general-5-1-execution-observability` от `main=78c20268c`; кандидат 5.1.0/1.3.1 не смержен и не выпущен. Действующая активация 5.0.3/1.3.0. CI успешно выполнен на `fa7519d1e59e24b94809c123a69e5e74e3c5a932`; после state-only commit проверь CI нового head. Независимого семантического аудита пока нет.
 
 ## Открытые вопросы
 
-- Проверить CI verifier и тесты setup/publication, выполнить независимый аудит критичных регрессий.
+- Проверить CI на финальном head и провести независимый аудит критичных регрессий.
 - Отдельные решения PO потребуются для merge, релиза, публикации и активации.
 
 ## Следующий шаг
 
-Создать draft PR в main, проверить CI и полный diff, провести аудит. Без merge/release.
+Draft PR #20 создан; проверить CI на итоговом head и провести независимый аудит. Без merge/release.
 
 ## Контекст следующего шага
 
@@ -63,7 +64,7 @@ Bootstrap, Activation Git и Cloud Adapter 1.3.0 — активны; 1.3.1 — c
 ## Внешние изменяемые факты
 
 - `main=78c20268c723d03fdc6237fbd9c87ca914b7f8ab`; GitHub branches API, `checked_at=2026-10-08`; перед merge перепроверить.
-- Кандидат `5ed654331a40d10d57bd31c41789619ae1dbda13`; GitHub commit/tree API, `checked_at=2026-10-08`; перед аудитом проверить branch HEAD.
+- Артефакты `5ed654331a40d10d57bd31c41789619ae1dbda13`; CI success на `fa7519d1e59e24b94809c123a69e5e74e3c5a932` (GitHub Actions `37765315931`, `checked_at=2026-10-08`); перед аудитом проверить branch HEAD.
 - Активация 5.0.3/1.3.0 подтверждена PO 2026-09-08; повторить после новой версии.
 
 ## Риски и расхождения
