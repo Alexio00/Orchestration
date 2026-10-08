@@ -230,7 +230,7 @@ Merge и direct push в base требуют решения PO. Не обходи
 
 1. Определи repo, ветки, base, HEAD и working/staged diff. Неоднозначная base блокирует запись.
 2. До записи получи все open PR в точную base без фильтра head. Подтверди полную пагинацию PR и changed-files; если API сообщает `changed_files`, число уникальных путей должно совпасть. Нет доступа или доказанной полноты — останови запись.
-3. Кандидат — непустой PR в точную base: body содержит один `GENERAL-5-ACTIVATION` с фактическими repository/base/версиями; changed-files ограничен `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md`; в head-tree `CLAUDE.md` содержит одну строку `@AGENTS.md` вне кода, а `AGENTS.md` — согласованные `GENERAL-5:BEGIN version=5.0.3 bootstrap=1.3.1` и `GENERAL-5:END`. Проверяй head-tree, не patch. Несовпадающий/повторный marker, удаление активации или иной путь — конфликт. `0` кандидатов → создай; `1` → переиспользуй; `>1`/конфликт → решение PO.
+3. Кандидат — непустой PR в точную base: body содержит один `GENERAL-5-ACTIVATION` с фактическими repository/base/версиями; changed-files ограничен `CLAUDE.md`, `AGENTS.md`, `PROJECT-STATE.md`; в head-tree `CLAUDE.md` содержит одну строку `@AGENTS.md` вне кода, а `AGENTS.md` — согласованные `GENERAL-5:BEGIN version=5.1.0 bootstrap=1.3.1` и `GENERAL-5:END`. Проверяй head-tree, не patch. Несовпадающий/повторный marker, удаление активации или иной путь — конфликт. `0` кандидатов → создай; `1` → переиспользуй; `>1`/конфликт → решение PO.
 
 Без репозитория не симулируй эти проверки.
 
@@ -243,7 +243,7 @@ Merge и direct push в base требуют решения PO. Не обходи
 3. Без изменений — без commit/PR. Перед продолжением проверь происхождение изменений.
 4. Ветка допустима, только если весь diff к base относится к активации. Без force push; нельзя изолировать своё — остановка.
 5. Добавляй только свои точные пути; не используй `git add .`/`git add -A`. Проверь staged и branch diff.
-6. Commit/push и draft PR либо обновление кандидата. Новый PR пометь один раз: `<!-- GENERAL-5-ACTIVATION repository=owner/repository base=branch general=5.0.3 bootstrap=1.3.1 -->`, подставив repository/base. Проверь commit, head/base, полный PR diff и файлы head-tree; отказ — фактический этап и остановка.
+6. Commit/push и draft PR либо обновление кандидата. Новый PR пометь один раз: `<!-- GENERAL-5-ACTIVATION repository=owner/repository base=branch general=5.1.0 bootstrap=1.3.1 -->`, подставив repository/base. Проверь commit, head/base, полный PR diff и файлы head-tree; отказ — фактический этап и остановка.
 7. После PR остановись: без merge и автоматического monitoring.
 
 ## Результат
