@@ -28,3 +28,6 @@ jobs:
 
       - name: Test ambiguous marker rejection
         run: bash scripts/test-verifier-markers.sh
+
+      - name: Test activation and status contract regressions
+        run: bash scripts/test-audit-regressions.sh
