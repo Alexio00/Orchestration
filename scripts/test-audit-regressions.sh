@@ -68,6 +68,9 @@ expect_rejection 'candidate declares unissued release tag' AGENTS.md \
 expect_rejection 'bootstrap claims premature activation' ACTIVATION-BOOTSTRAP.md \
   "Статус: дистрибутив General $version; подключение и активация подтверждаются отдельно." \
   "Статус: активный репозиторный дистрибутив General $version."
+expect_rejection 'bootstrap state template falsely activates candidate' ACTIVATION-BOOTSTRAP.md \
+  "Активная версия General: Не подтверждена (дистрибутив $version)" \
+  "Активная версия General: $version"
 expect_rejection 'logs unavailable replaces known process status' OPS-ROLES.md \
   'при недоступных логах (пометка `logs unavailable`)' \
   'при недоступных логах (пометка `unknown`)'

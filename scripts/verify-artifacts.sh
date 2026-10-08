@@ -55,6 +55,10 @@ if ! grep -Fq "Статус: дистрибутив General $general_version; п
   printf 'Bootstrap template prematurely claims active status.\n' >&2
   exit 1
 fi
+if ! grep -Fq "Активная версия General: Не подтверждена (дистрибутив $general_version)" "$bootstrap_file"; then
+  printf 'Bootstrap state template falsely marks General as activated.\n' >&2
+  exit 1
+fi
 if [[ "$general_status" == 'candidate' ]]; then
   if ! grep -Fq 'Канонический текст кандидата: `GENERAL-5.md` из того же commit/tree' "$agents_file" \
      || grep -Fq 'Канонический выпущенный текст:' "$agents_file"; then
