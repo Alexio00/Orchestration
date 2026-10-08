@@ -3,12 +3,12 @@
 Снимок состояния: 2026-10-08
 Репозиторий: Alexio00/Orchestration
 Ветка: feature/general-5-1-execution-observability
-Ревизия артефактов: 5ed654331a40d10d57bd31c41789619ae1dbda13
-База снимка: fa7519d1e59e24b94809c123a69e5e74e3c5a932
+Ревизия артефактов: dc299162f6fab2c719379492a62e5d5efe13be06
+База снимка: dc299162f6fab2c719379492a62e5d5efe13be06
 Текущий HEAD: проверяется при чтении
 Активная версия General: 5.0.3 — released/published/activated; кандидат 5.1.0 — draft
 Bootstrap, Activation Git и Cloud Adapter 1.3.0 — активны; 1.3.1 — candidate
-Ревизия снимка: 29
+Ревизия снимка: 30
 
 ## Цель
 
@@ -35,26 +35,26 @@ Bootstrap, Activation Git и Cloud Adapter 1.3.0 — активны; 1.3.1 — c
 
 - General 5.0.3 / компоненты 1.3.0 ранее выпущены, опубликованы и активированы; `v5.0.3` неизменен.
 - Кандидат 5.1.0 / компоненты 1.3.1 создан в отдельной ветке. Канонические и производные инструкции синхронизированы; лимиты и Git diff проверены.
-- Артефакты: `5ed654331a40d10d57bd31c41789619ae1dbda13`.
-- CI на `fa7519d1e59e24b94809c123a69e5e74e3c5a932` прошёл: verifier, Claude Code setup safety, publication gates, marker rejection; источник: GitHub Actions run `37765315931`.
+- Закрыты три Major аудита: маркеры Activation Git, статус процесса при отсутствии логов, ссылка кандидата на релиз; синхронизированы Project/Cloud payload.
+- CI на `dc299162f6fab2c719379492a62e5d5efe13be06` прошёл: verifier, Claude Code setup, publication gates, marker rejection и 6 негативных регрессионных сценариев; GitHub Actions run `37766841713`.
 
 ## Текущее состояние
 
-Ветка `feature/general-5-1-execution-observability` от `main=78c20268c`; кандидат 5.1.0/1.3.1 не смержен и не выпущен. Действующая активация 5.0.3/1.3.0. CI успешно выполнен на `fa7519d1e59e24b94809c123a69e5e74e3c5a932`; после state-only commit проверь CI нового head. Независимого семантического аудита пока нет.
+Ветка `feature/general-5-1-execution-observability` от `main=78c20268c`; кандидат 5.1.0/1.3.1 не смержен и не выпущен. Действующая активация 5.0.3/1.3.0. Исправлены три Major, CI прошёл на `dc299162f6fab2c719379492a62e5d5efe13be06`; после state-only commit повторно проверить CI на итоговом head. Независимого семантического аудита пока нет.
 
 ## Открытые вопросы
 
-- Проверить CI на финальном head и провести независимый аудит критичных регрессий.
+- Проверить CI на финальном head и повторно оценить blocker/major точного результата; независимость проверки пока недоступна.
 - Отдельные решения PO потребуются для merge, релиза, публикации и активации.
 
 ## Следующий шаг
 
-Draft PR #20 создан; проверить CI на итоговом head и провести независимый аудит. Без merge/release.
+Draft PR #20: проверить CI на итоговом head, провести повторный blocker/major review; перед merge требуется отдельное решение PO.
 
 ## Контекст следующего шага
 
 - Источники: `GENERAL-5.md`, `OPS-DELEGATION.md`, `OPS-ROLES.md`; производные `AGENTS.md`, `PROJECT-INSTRUCTIONS.md`, `CLAUDE-CODE-SETUP.sh`.
-- Проверки: `scripts/verify-artifacts.sh` и `scripts/test-*.sh`; ручные сценарии — `ACTIVATION.md`.
+- Проверки: `scripts/verify-artifacts.sh`, `scripts/test-audit-regressions.sh`, остальные `scripts/test-*.sh`; ручные сценарии — `ACTIVATION.md`.
 
 ## Справочный контекст
 
@@ -64,12 +64,12 @@ Draft PR #20 создан; проверить CI на итоговом head и �
 ## Внешние изменяемые факты
 
 - `main=78c20268c723d03fdc6237fbd9c87ca914b7f8ab`; GitHub branches API, `checked_at=2026-10-08`; перед merge перепроверить.
-- Артефакты `5ed654331a40d10d57bd31c41789619ae1dbda13`; CI success на `fa7519d1e59e24b94809c123a69e5e74e3c5a932` (GitHub Actions `37765315931`, `checked_at=2026-10-08`); перед аудитом проверить branch HEAD.
+- Артефакты `dc299162f6fab2c719379492a62e5d5efe13be06`; CI success на этом же commit (GitHub Actions `37766841713`, `checked_at=2026-10-08`); после snapshot commit проверить CI на новом head.
 - Активация 5.0.3/1.3.0 подтверждена PO 2026-09-08; повторить после новой версии.
 
 ## Риски и расхождения
 
-- Независимый аудит ещё не выполнен, а поведенческий eval отменён по решению PO.
+- Повторная проверка blocker/major будет авторской, не независимой; поведенческий eval отменён по решению PO.
 - Без внешнего механизма нельзя гарантировать heartbeat во время блокирующего вызова; длительность сама по себе не доказывает зависание.
 - `IDEA-PLANNING-EXECUTION-ENVIRONMENTS.md` остаётся идеей, данным кандидатом не активируется.
 
