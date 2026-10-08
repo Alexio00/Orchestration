@@ -9,6 +9,7 @@
 Активная версия General: 5.1.0 — released/published; activated в текущем ChatGPT Project (2026-10-08)
 Activation Bootstrap и Activation Git: 1.3.1 — released; Claude Code Cloud Adapter: 1.3.1 — released. Активация в других средах не подтверждена.
 Ревизия снимка: 33
+
 ## Цель
 
 Релиз General 5.1.0: безопасная независимая работа, статусы PO и реакция на сбои без ложных гарантий таймера. **Релиз завершён 2026-10-08.**
@@ -32,25 +33,21 @@ Activation Bootstrap и Activation Git: 1.3.1 — released; Claude Code Cloud Ad
 
 ## Завершено
 
-- PR #20 интегрирован в `main` (`0ad23d8ed3e0f578da9e9749e32f6d9264f04473`); пост-merge CI `37768148414` — success.
-- PR #21 интегрировал релизные статусы и производные инструкции; merge commit `7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0`.
-- Git tag `v5.1.0` указывает на `7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0`; GitHub Release `General 5.1.0` опубликован 2026-10-08 11:31:28 UTC.
-- Выпущены General 5.1.0, Activation Bootstrap 1.3.1, Activation Git 1.3.1 и Claude Code Cloud Adapter 1.3.1. Ревизия артефактов — `c43a007f01ddff2730111b9d2c80078cc1e82b71`; после неё до release merge изменялся только `PROJECT-STATE.md`.
-- Публикация Pages: workflow исходного репозитория `37770614994` — success; workflow `Orchestration-pages` `37770633637` — success.
-- Post-release CI `37769388216`, attempt 2 на `7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0` — success (все проверочные шаги). Первый запуск до появления тега `v5.1.0` завершился ошибкой отсутствующего тега.
-- 2026-10-08: read-only preflight в текущем ChatGPT Project подтвердил загруженные General 5.1.0 / Bootstrap 1.3.1 и корректную активацию текущей среды.
+- PR #20 интегрирован в `main` (`0ad23d8`); PR #21 — релизный merge `7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0`.
+- General 5.1.0 и компоненты 1.3.1 выпущены; tag `v5.1.0` указывает на релизный merge. GitHub Release опубликован 2026-10-08 11:31:28 UTC. Ревизия артефактов — `c43a007f`; позже менялся только снимок.
+- Публикация Pages: `37770614994` и `37770633637` — success.
+- Post-release CI `37769388216`, attempt 2 — success на релизном HEAD; первый запуск упал до создания тега.
+- Read-only preflight 2026-10-08 подтвердил General 5.1.0 / Bootstrap 1.3.1 в текущем ChatGPT Project.
 
 ## Текущее состояние
 
-`main=7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0`; выпущенный тег `v5.1.0` указывает на тот же commit. Релиз завершён, Pages опубликованы, CI на релизном HEAD после создания тега успешен.
-
-General 5.1.0 / Bootstrap 1.3.1 используются в текущем ChatGPT Project. Активация других целевых сред не проверена; публикация дистрибутива не означает автоматическую активацию всех сред.
+`main=7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0` = tag `v5.1.0`. Релиз и Pages опубликованы, CI после создания тега успешен. Текущий ChatGPT Project активирован; другие среды не проверены.
 
 ## Открытые вопросы
 
-- Старые рабочие ветки могут требовать ручной очистки: сначала проверить неизменность, open PR и защиту; без отдельного решения PO не удалять.
-- Активация других сред не подтверждена; проверять только по новой задаче PO.
-- Независимой повторной семантической проверки исправлений Major не было; поведенческий eval не вводить без решения PO.
+- Старые ветки — кандидаты на ручную очистку только после проверки безопасности и решения PO.
+- Активация других сред не подтверждена.
+- Независимой повторной семантической проверки исправлений Major не было.
 
 ## Следующий шаг
 
@@ -58,9 +55,9 @@ General 5.1.0 / Bootstrap 1.3.1 используются в текущем ChatG
 
 ## Контекст следующего шага
 
-- Актуальный `PROJECT-STATE.md`, PR с его diff и `main`/HEAD; release `v5.1.0`; CI `37769388216` (attempt 2).
-- Канонические тексты при необходимости: `GENERAL-5.md`, `ACTIVATION-BOOTSTRAP.md`, `ACTIVATION-GIT.md`; производные `AGENTS.md`, `PROJECT-INSTRUCTIONS.md`, `CLAUDE-CODE-SETUP.sh`.
-- Проверки при новой работе с артефактами: `scripts/verify-artifacts.sh`, `scripts/test-audit-regressions.sh`, остальные `scripts/test-*.sh`.
+- `PROJECT-STATE.md`, diff maintenance PR; `main` / `v5.1.0`; CI `37769388216` (attempt 2).
+- Источники для новых задач: `GENERAL-5.md`, `ACTIVATION-BOOTSTRAP.md`, `ACTIVATION-GIT.md`; производные `AGENTS.md`, `PROJECT-INSTRUCTIONS.md`, `CLAUDE-CODE-SETUP.sh`.
+- Проверки артефактов: `scripts/verify-artifacts.sh` и профильные `scripts/test-*.sh`.
 
 ## Справочный контекст
 
@@ -69,16 +66,16 @@ General 5.1.0 / Bootstrap 1.3.1 используются в текущем ChatG
 
 ## Внешние изменяемые факты
 
-- `main=7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0`; GitHub branches API, `checked_at=2026-10-08`; перепроверить перед merge.
-- `v5.1.0 → 7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0`, Release `General 5.1.0` опубликован 2026-10-08 11:31:28 UTC; GitHub refs/releases API, `checked_at=2026-10-08`; перепроверить при новой релизной операции.
-- CI `37769388216` attempt 2 — success на `7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0`, Pages `37770614994` и `37770633637` — success; GitHub Actions API, `checked_at=2026-10-08`; проверять заново после изменений.
-- GitHub `Alexio00/Orchestration` — public (`private=false`); GitHub repos API, `checked_at=2026-10-08`; решение PO — не менять видимость.
+- GitHub branches API: `main=7b13c2dc3cc2f25d7e89c28259ac21effdc95ee0`; `checked_at=2026-10-08`; повторить перед merge.
+- GitHub refs/releases API: `v5.1.0` на `main`, Release опубликован; `checked_at=2026-10-08`; повторить перед новым релизом.
+- GitHub Actions API: `37769388216` attempt 2, `37770614994`, `37770633637` — success; `checked_at=2026-10-08`; перепроверить после изменений.
+- GitHub repos API: `Orchestration` — public (`private=false`); `checked_at=2026-10-08`; PO решил не менять.
 
 ## Риски и расхождения
 
-- Независимого повторного семантического аудита Major не было; выпущенная версия не меняется без отдельного решения PO.
-- Нельзя гарантировать heartbeat во время блокирующего вызова без внешнего механизма; длительность без логов сама по себе не доказывает зависание.
-- `IDEA-PLANNING-EXECUTION-ENVIRONMENTS.md` остаётся идеей, релиз 5.1.0 её не активирует.
+- Нет независимого повторного семантического аудита Major; поведенческий eval не вводить без решения PO.
+- Heartbeat во время блокирующего вызова не гарантируется; нет логов — не значит зависание.
+- `IDEA-PLANNING-EXECUTION-ENVIRONMENTS.md` остаётся идеей.
 
 ## Свежесть снимка
 
