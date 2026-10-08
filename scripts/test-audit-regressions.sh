@@ -14,7 +14,7 @@ cp "$repo_root/GENERAL-5.md" "$repo_root/ACTIVATION-BOOTSTRAP.md" "$repo_root/AC
   "$repo_root/CLAUDE-CODE-SETUP.sh" "$repo_root/ACTIVATION.md" "$repo_root/PROJECT-STATE.md" \
   "$repo_root/.gitignore" "$fixture/"
 
-version="$(sed -n 's/^Статус: .*General \\([0-9][0-9.]*\\).*/\\1/p' "$fixture/GENERAL-5.md" | head -n 1)"
+version="$(sed -n 's/^Статус: .*General \([0-9][0-9.]*\).*/\1/p' "$fixture/GENERAL-5.md" | head -n 1)"
 git -C "$fixture" init -q
 git -C "$fixture" config user.name test
 git -C "$fixture" config user.email test@example.invalid
