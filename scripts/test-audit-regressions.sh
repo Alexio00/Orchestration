@@ -62,9 +62,15 @@ expect_rejection 'git activation begin marker' ACTIVATION-GIT.md \
 expect_rejection 'git activation PR marker' ACTIVATION-GIT.md \
   "general=$version bootstrap=1.3.1" \
   "general=5.0.3 bootstrap=1.3.1"
-expect_rejection 'candidate declares unissued release tag' AGENTS.md \
-  'Канонический текст кандидата:' \
-  'Канонический выпущенный текст:'
+if grep -Fq 'Статус: **candidate — General ' "$fixture/GENERAL-5.md"; then
+  expect_rejection 'candidate declares unissued release tag' AGENTS.md \
+    'Канонический текст кандидата:' \
+    'Канонический выпущенный текст:'
+else
+  expect_rejection 'released source must identify tag' AGENTS.md \
+    "Канонический выпущенный текст: \`GENERAL-5.md\` в теге \`v$version\`" \
+    'Канонический текст кандидата:'
+fi
 expect_rejection 'bootstrap claims premature activation' ACTIVATION-BOOTSTRAP.md \
   "Статус: дистрибутив General $version; подключение и активация подтверждаются отдельно." \
   "Статус: активный репозиторный дистрибутив General $version."
