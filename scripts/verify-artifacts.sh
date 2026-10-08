@@ -38,6 +38,44 @@ activation_status='candidate'
 [[ "$general_status" == 'выпущено' ]] && activation_status='released'
 grep -Fq "Статус: $activation_status;" "$repo_root/ACTIVATION.md"
 
+# Recheck human-readable markers: generated payload equality alone does not
+# guarantee the repository activation preflight agrees with its own versions.
+expected_git_begin="GENERAL-5:BEGIN version=$general_version bootstrap=$bootstrap_version"
+expected_git_pr="GENERAL-5-ACTIVATION repository=owner/repository base=branch general=$general_version bootstrap=$bootstrap_version"
+if [[ "$(grep -oF 'GENERAL-5:BEGIN version=' "$git_file" | wc -l)" != 1 ]] \
+   || [[ "$(grep -oF 'GENERAL-5-ACTIVATION repository=' "$git_file" | wc -l)" != 1 ]] \
+   || ! grep -Fq "$expected_git_begin" "$git_file" \
+   || ! grep -Fq "$expected_git_pr" "$git_file"; then
+  printf 'Activation Git marker versions do not match General/Bootstrap.\n' >&2
+  exit 1
+fi
+
+# Source-of-truth claims must match lifecycle, not a future release tag.
+if ! grep -Fq "Статус: дистрибутив General $general_version; подключение и активация подтверждаются отдельно." "$bootstrap_file"; then
+  printf 'Bootstrap template prematurely claims active status.\n' >&2
+  exit 1
+fi
+if [[ "$general_status" == 'candidate' ]]; then
+  if ! grep -Fq 'Канонический текст кандидата: `GENERAL-5.md` из того же commit/tree' "$agents_file" \
+     || grep -Fq 'Канонический выпущенный текст:' "$agents_file"; then
+    printf 'Candidate AGENTS incorrectly claims a released source.\n' >&2
+    exit 1
+  fi
+else
+  if ! grep -Fq "Канонический выпущенный текст: \`GENERAL-5.md\` в теге \`v$general_version\`" "$agents_file"; then
+    printf 'Released AGENTS must identify the exact canonical release tag.\n' >&2
+    exit 1
+  fi
+fi
+
+# Log access is orthogonal to the externally confirmed process status.
+if ! grep -Fq 'при недоступных логах (пометка `logs unavailable`)' "$roles_file" \
+   || ! grep -Fq 'если само состояние процесса нельзя проверить — передай `unknown`' "$roles_file" \
+   || ! grep -Fq 'при подтверждённом `running` и отсутствии логов — `running; logs unavailable`' "$repo_root/ACTIVATION.md"; then
+  printf 'Process-status and log-availability contracts are inconsistent.\n' >&2
+  exit 1
+fi
+
 if grep -Fq 'Статус: **выпущено — General ' "$general_file"; then
   general_tag="v$general_version"
   if ! git -C "$repo_root" rev-parse --verify "refs/tags/$general_tag^{commit}" >/dev/null 2>&1; then

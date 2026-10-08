@@ -37,7 +37,7 @@ Read-only/Plan и более узкие полномочия приоритет�
 ```markdown
 <!-- GENERAL-5:BEGIN version=5.1.0 bootstrap=1.3.1 -->
 # General 5 — repository activation
-Статус: активный репозиторный дистрибутив General 5.1.0.
+Статус: дистрибутив General 5.1.0; подключение и активация подтверждаются отдельно.
 Activation Bootstrap: 1.3.1.
 
 ## Протокол активации
